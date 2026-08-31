@@ -1,0 +1,15 @@
+# Changelog
+
+User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
+
+## [Unreleased] — 0.1.0
+
+### Added
+- Initial public packet, forked 2026-08-31 from the [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory) engine (contract v3.1 plus review rounds 5–8) and re-flavored for founders selling their own product (ADR-0007): `/sales/` namespace, `Sales Touchpoint` type, lead/customer/account vocabulary, sales-stage `stage_noted` vocabulary (`lead` → `closed-won`/`closed-lost`), "Leads going cold" reporting, "Account history check".
+- The two skills: `sales-demo` (guided 10-minute session, snapshot-first) and `sales-memory` (ongoing capture/recall/report with the same snapshot-first Show→Save→Tend flow as the siblings — identical time-to-value by design).
+- Engine features carried from the fork point: stable per-source dedupe keys (`touch:cal:<event-id>`, transcript ids, CRM-note ids, thread ids), the veto-set-first invariant and tombstone list, commit ledger before every one-yes, review queue, sweep watermarks with failure-safe advancement, backfill hygiene, dual-surface calendar detection, CRM capability tiers + "Add your CRM" protocol, messaging capture registry (`message` channel; WhatsApp/Telegram/Signal/iMessage/LinkedIn/Slack paste tier), interruption-safe sample cleanup, snapshot-time read disclosure.
+- **ADR-0008 — gated CRM contact creation (this flavor only)**: optional capability slot 8 lets the skill add a missing live-logged lead as a minimal CRM contact — off by default, enabled only by a recorded `## Preferences` choice, confirmed per contact, never from imports or backfill. The siblings' "never create contacts" rail otherwise holds.
+- CI validation, release packaging, ADRs 0001–0008, five-rule CONTRIBUTING, docs/why-fulcra.md, README chooser, docs/mcp-operations.md, docs/harness-matrix.md (all untried for this flavor), messaging browser-observation tier, scheduled-sweep Tend behavior, CRM slot 6 note placement — designed features carry designed/untested labels until testing.md rows exist.
+
+### Release gate
+- First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.

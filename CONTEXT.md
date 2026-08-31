@@ -1,0 +1,120 @@
+# Sales Memory
+
+The domain language of this skill packet: two Claude skills that turn a founder's own Fulcra account into customer-relationship memory for their sales pipeline. This glossary is the canonical vocabulary; `skills/sales-memory/references/conventions.md` holds the data formats behind it.
+
+## Language
+
+### The interactions
+
+**Touchpoint**:
+A real-world interaction between the user and a person in their pipeline — a call, meeting, email exchange, event conversation, or similar. The event itself, not any stored copy of it.
+_Avoid_: interaction, meeting note, log entry (for the event)
+
+**Representation**:
+A stored projection of one touchpoint. A touchpoint has up to three: a relationship-file **entry**, a **typed record**, and (when CRM sync is on) a CRM **note**. One event, up to three projections, all carrying the same dedupe key.
+
+**Entry**:
+The narrative representation of a touchpoint: a dated block inside a relationship file, newest first.
+
+**Typed record**:
+The structured representation of a touchpoint: one Sales Touchpoint record, queryable by date, powering reports and stale alerts.
+_Avoid_: structured record, annotation
+
+**Sales Touchpoint**:
+The custom Fulcra data type (proper noun) whose records are the typed records.
+
+**Channel**:
+How a touchpoint happened. Exactly one of: call, meeting, email, event, message, other.
+
+### The people
+
+**Relationship**:
+The user's ongoing connection to one person — always person-level. Company-level views ("what do I know about Brightpath?") are always derived by aggregating that company's people; there are no company-level relationship files.
+_Avoid_: contact (that's the CRM's word), account
+
+**Company**:
+The company a lead or customer belongs to — the account (payload key: `company`). The unit reporting groups by; "account" is the reporting word ("Accounts engaged").
+_Avoid_: firm
+
+**Relationship file**:
+The one narrative file per person under `/sales/relationships/<slug>.md`: who they are, open follow-ups, and their touchpoint entries.
+
+**Person slug**:
+The lowercase, hyphenated identifier derived from a person's name (`jordan-lee`), disambiguated by company only on collision.
+
+**Sample touchpoint**:
+The clearly-labeled fictional touchpoint (Jordan Lee, Brightpath Software) the demo offers when the user has nothing real to log. Never presented as real data.
+
+### The machinery
+
+**Dedupe key**:
+The deterministic identifier every touchpoint gets (`touch:<person-slug>:<YYYY-MM-DD>`, ordinal-suffixed `-2`, `-3` for additional same-day touchpoints, or the transcript id). Each representation is scanned for it in its own store before writing; a match means confirm-with-the-user (same conversation → skip; different → next ordinal), never silent assumption. The mechanism behind "re-running can't duplicate data."
+
+**Provenance suffix**:
+The trailer every representation carries: producer | evidence | recorded-at. Marks stored conclusions as derived, never as source observations.
+
+**Dual write**:
+Writing a captured touchpoint as both its entry and its typed record in one pass.
+
+**Bootstrap**:
+What either skill does at the start of a fresh session: inspect the Fulcra data catalog and the `/sales/` folder, detect connected sources, and state what it found before acting.
+
+**Capture / Recall / Report**:
+The full skill's three behaviors: log a touchpoint; brief the user on a person ("prep me for X"); summarize a period ("what moved this week"), including the going-cold list.
+
+**Going cold**:
+The state of a relationship whose latest touchpoint is 45+ days old; surfaced by Report.
+_Avoid_: stale (in user-facing output; fine internally)
+
+**Stage noted**:
+An optional, as-of-that-conversation observation of where a deal stands, captured only when the user volunteers it. Narrative, never managed pipeline state — the user's CRM owns pipeline (ADR-0004).
+_Avoid_: stage (bare, implying managed state), pipeline stage
+
+**Source level**:
+How much automation the full skill detected: Level 1 (Fulcra only, conversational capture), Level 2 (+ calendar), Level 3 (+ transcript tool). Detected at bootstrap, never required.
+
+**CRM sync**:
+The optional, detected, one-way copy of touchpoints into the user's CRM as notes on matched contacts. Orthogonal to source levels; never touches fields or stages, and creates a contact only through the gated ADR-0008 flow (off by default, confirmed per contact).
+
+### The flow
+
+**Snapshot**:
+The read-only analysis of the user's recent sales activity (default 30 days), generated from connected sources and shown before anything is stored. Performs zero writes by definition.
+_Avoid_: report (that's the stored-memory review), audit
+
+**Commit**:
+Converting a snapshot (or deeper backfill) into stored memory on one collective yes (ADR-0005). High-confidence drafts are written; ambiguity is parked, never guessed.
+_Avoid_: sync (that's the CRM copy). "Import" is reserved for individual CRM-note-origin touchpoints, never the flow as a whole.
+
+**Backfill**:
+Committing touchpoints from past activity (calendar, transcripts, CRM notes) rather than logging them live. Activity-bounded, never CRM-bounded (ADR-0006); backfilled entries never create open follow-ups.
+
+**Review queue**:
+`/sales/review-queue.md` — where ambiguous commit items wait for the user's ruling, each with its evidence. Parked items exist nowhere else until ruled on.
+
+**Account history check**:
+The "talked to this company before?" lookup when a new lead appears: direct hits, the user's own past judgment, labeled inferences, and a read-only CRM presence check. A read; never writes.
+
+**Tend**:
+The ongoing mode after commit: small deltas offered in one line (including the opt-in scheduled sweep, cursored by watermarks), vetoes honored immediately, the review queue surfaced occasionally — seconds per day, never a project.
+
+**Veto**:
+The user striking a stored touchpoint ("that one's wrong"). The file entry is removed (versioned edit); because typed records have no per-record delete, the dedupe key goes on `handoff.md`'s `## Vetoed keys` list — the tombstone every read these skills perform excludes and no commit re-imports (readers outside the skills must apply the list themselves).
+
+**Commit ledger**:
+The itemized list shown immediately before the one collective yes — one line per draft (person, date, source, one-line gist), split into Will save and Parked for review. What makes ADR-0005's "read exactly what will be saved" literal.
+
+**Sweep watermark**:
+The per-source cursor in `handoff.md` (`## Sweep watermarks`) that a scheduled sweep reads and advances — only after its digest is fully resolved — so repeated sweeps never rediscover the same messages.
+
+### The packet
+
+**The demo**:
+The `sales-demo` skill: one guided session, about ten minutes, ending with a prep brief from what it just stored.
+_Avoid_: lite, the lite version
+
+**The full skill**:
+The `sales-memory` skill: the ongoing capture/recall/report workflow.
+
+**Data contract**:
+`skills/sales-memory/references/conventions.md` — the canonical formats both skills conform to. Where this glossary defines what a word means, the contract defines the bytes.
