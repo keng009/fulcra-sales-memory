@@ -13,7 +13,7 @@ The shared data contract for the `sales-demo` and `sales-memory` skills: where f
 | `/sales/README.md` | What this folder is, which skills write to it, a pointer to these conventions, and the no-credentials rule: no credentials, tokens, or secrets are ever written to any file in this folder. |
 | `/sales/INDEX.md` | One line per file in the folder. Read at bootstrap; updated whenever a file is added. |
 | `/sales/relationships/<slug>.md` | One narrative file per person (lead, customer contact, champion, partner). Dated touchpoint entries, newest first. |
-| `/sales/handoff.md` | Durable handoff: open follow-ups, pending intros, next actions — plus the `## Vetoed keys` list (dedupe keys the user has vetoed; every read these skills perform excludes them, and no commit re-imports them; needed because typed records have no per-record delete — readers outside these skills must apply the list themselves) the `## Sweep watermarks` list (one line per swept source: `- <source>: <ISO-8601 of last completed sweep>`; advanced only after a sweep's digest is fully resolved; an interrupted or failed sweep leaves it unmoved, and parked items are never re-offered), and the `## Preferences` list (durable user choices these skills honor; today the only defined line is `- crm-contact-creation: ask-each-time|never` — see ADR-0008). |
+| `/sales/handoff.md` | Durable handoff: open follow-ups, pending intros, next actions — plus the `## Vetoed keys` list (dedupe keys the user has vetoed; every read these skills perform excludes them, and no commit re-imports them; needed because typed records have no per-record delete — readers outside these skills must apply the list themselves) the `## Sweep watermarks` list (one line per swept source: `- <source>: <ISO-8601 of last completed sweep>`; advanced only after a sweep's digest is fully resolved; an interrupted or failed sweep leaves it unmoved, and parked items are never re-offered), the `## Preferences` list (durable user choices these skills honor; today the only defined line is `- crm-contact-creation: ask-each-time|never` — see ADR-0008), and the optional `## Pipelines` registry (one line per business the user sells for, e.g. `- fulcra`; absent or single-entry for most users — see Pipelines below). |
 | `/sales/review-queue.md` | Ambiguous items from commits/backfill parked for the user's judgment, each with its evidence. Skills append; the user (or the user via any assistant) clears. Never written to any other store while queued. |
 
 ## Relationship file format
@@ -39,6 +39,7 @@ Rules:
 
 - Touchpoints are ordered newest first.
 - The `Stage noted:` line appears only when the user volunteered where the deal stands (see the stage_noted payload field below) — never ask a dedicated question to fill it.
+- When the `## Pipelines` registry in `handoff.md` holds two or more entries, the Context line is followed by a `Pipeline: <name>` line naming which business this relationship belongs to (see Pipelines below). With zero or one pipeline registered, the line is omitted everywhere.
 - Keep each file to roughly two pages. When it grows past that, consolidate the oldest touchpoints into a single `### Earlier` digest at the bottom — a few summary lines, keeping the dedupe key of each consolidated touchpoint listed so a dedupe scan still finds it.
 - Every touchpoint carries its dedupe key in the heading and a provenance suffix as its last line (formats below).
 
@@ -99,8 +100,18 @@ The rules:
 - `stage_noted` is OPTIONAL — an observation of where this deal stands, from what the user said, omitted entirely when they didn't indicate one. Suggested vocabulary: `lead`, `qualified`, `demo`, `proposal`, `negotiation`, `closed-won`, `closed-lost`; free text is allowed. It is narrative — an as-of-that-conversation observation, never managed pipeline state, and it is NEVER written to CRM stage or field values (the user's CRM remains the system of record for pipeline; see ADR-0004).
 - `channel` is exactly one of: `call`, `meeting`, `email`, `event`, `message`, `other`. `message` is a DM/text thread — WhatsApp, Telegram, Signal, iMessage, LinkedIn, Slack, SMS, or any other messaging app; capture guidance per app lives in `messaging-capture.md` (same folder).
 - `follow_ups` is an array of strings; an empty array when there are none.
+- `pipeline` is OPTIONAL and appears only for multi-pipeline users (see Pipelines below): the registered pipeline name the person's relationship belongs to. Omitted entirely when at most one pipeline is registered.
 - `producer`, `evidence`, `recorded_at` are the provenance trio (see Provenance).
 - The record's timestamp is when the touchpoint occurred — not when it was logged. (`recorded_at` in the payload is when it was logged; the two differ whenever a touchpoint is logged after the fact.)
+
+## Pipelines (optional — sellers with more than one business)
+
+A seller running two businesses (say, a company role and their own product) keeps both in one `/sales/` memory, separated by pipeline:
+
+- The `## Pipelines` list in `handoff.md` registers the names (lowercase slugs, e.g. `- fulcra`, `- gobeyond`). It is created only when the user names a second business — never proactively.
+- Pipeline is a property of the RELATIONSHIP, not of individual touchpoints: it lives as a `Pipeline: <name>` line under the relationship file's Context line and as the optional `pipeline` payload field on that person's records.
+- With 2+ pipelines registered, capture asks once per NEW person which pipeline they belong to (an existing person's file already answers it); unclear → park in the review queue like any ambiguity, never guessed. Reports and going-cold group by pipeline, and "what moved in <name>" filters to one.
+- **Progressive**: with zero or one pipeline registered, nothing asks, nothing displays differently, and no `Pipeline:` lines or `pipeline` fields are written. Single-business users never see this machinery.
 
 ## Snapshot (read-only analysis)
 

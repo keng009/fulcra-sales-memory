@@ -18,7 +18,7 @@ The capability-based adapter layers came over from the fork point; none is exerc
 
 ## Sales-specific features — earned, not guessed
 
-This fork exists so seller features can diverge from the sibling packets (ADR-0007). Candidates will come from real sales usage — pipeline momentum views, follow-up nudges from stored commitments, per-account brief drafting, inbound-signal capture patterns — and get scoped as issues when a real user (starting with the maintainer's own lead flow) needs them. Nothing lands as roadmap theater.
+This fork exists so seller features can diverge from the sibling packets (ADR-0007). The first shipped: **multi-pipeline support** (2026-09-02) — the maintainer sells for two businesses, so `/sales/` separates registered pipelines across capture, reports, and going-cold, invisibly for single-business users. Further candidates come from real sales usage — follow-up nudges from stored commitments, per-account brief drafting, inbound-signal capture patterns, a per-pipeline CRM mapping ([#7](https://github.com/keng009/fulcra-sales-memory/issues/7)) — and get scoped as issues when a real user needs them. Nothing lands as roadmap theater.
 
 ## The siblings
 
