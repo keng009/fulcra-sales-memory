@@ -11,5 +11,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 - **ADR-0008 — gated CRM contact creation (this flavor only)**: optional capability slot 8 lets the skill add a missing live-logged lead as a minimal CRM contact — off by default, enabled only by a recorded `## Preferences` choice, confirmed per contact, never from imports or backfill. The siblings' "never create contacts" rail otherwise holds.
 - CI validation, release packaging, ADRs 0001–0008, five-rule CONTRIBUTING, docs/why-fulcra.md, README chooser, docs/mcp-operations.md, docs/harness-matrix.md (all untried for this flavor), messaging browser-observation tier, scheduled-sweep Tend behavior, CRM slot 6 note placement — designed features carry designed/untested labels until testing.md rows exist.
 
+- **Multi-pipeline support** (first sales-specific feature earned from real usage): sellers with more than one business register pipelines in `handoff.md` (`## Pipelines`); relationships carry a `Pipeline:` line and records an optional `pipeline` field; reports, going-cold, and filtered asks ("what moved in <name>") group per pipeline. Fully progressive — single-business users see none of it.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
