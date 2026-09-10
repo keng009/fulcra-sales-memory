@@ -13,5 +13,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **Multi-pipeline support** (first sales-specific feature earned from real usage): sellers with more than one business register pipelines in `handoff.md` (`## Pipelines`); relationships carry a `Pipeline:` line and records an optional `pipeline` field; reports, going-cold, and filtered asks ("what moved in <name>") group per pipeline. Fully progressive — single-business users see none of it.
 
+- **Browser-observation account-risk posture** (engine-level, all siblings): inbox-only, two windows a day, read-only-what-is-new, the user's own browser profile only, stop-on-first-warning with backoff, and an explicit no-decoy-activity rule — restraint, not mimicry, plus the honest ToS disclosure. **LinkedIn lead-sequence discipline** (this flavor): judgment-based ICP screening with a fit score, connect → thank-you (+1 day) → signal-anchored action message (+7 days) tracked as dated follow-ups, 30-day drop candidates in Report, re-screen instead of discard, multi-channel touches — drafts only.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
