@@ -65,7 +65,7 @@ These skills are instruction files: no backend of their own, no telemetry, nothi
 
 ## Status — honest and current
 
-This packet was forked 2026-08-31 from the engine of [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory), whose write paths are live-tested with dated evidence (snapshot→commit→veto, stable per-source dedupe keys, CRM import + circularity, partial-failure healing, live sweep — see its [testing matrix](https://github.com/keng009/fulcra-dealflow-memory/blob/main/docs/testing.md)). **This flavor's own surfaces have not yet been run live** — see [docs/testing.md](docs/testing.md) for exactly what has and hasn't. Until its first live run, treat this packet as engine-proven, flavor-untested.
+This packet was forked 2026-08-31 from the engine of [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory), whose write paths are live-tested with dated evidence (snapshot→commit→veto, stable per-source dedupe keys, CRM import + circularity, partial-failure healing, live sweep — see its [testing matrix](https://github.com/keng009/fulcra-dealflow-memory/blob/main/docs/testing.md)). **This flavor's first live run passed on 2026-09-15** (snapshot → commit → veto on a real account, two pipelines) — see [docs/testing.md](docs/testing.md) for exactly what has and hasn't been exercised. The demo's zip-upload journey and the CRM/messaging adapters remain untested under this flavor until their rows exist.
 
 ---
 
