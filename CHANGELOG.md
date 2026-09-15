@@ -31,5 +31,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **Made for non-technical sellers**: a one-page [quick reference](docs/quick-reference.md) ("say this → get that", setup in three clicks, make-it-automatic, what it never does, what to do if something looks off) linked from the top of the README and handed over by the demo's outro; first-class daily-rhythm phrases — "prep my day" (today's meetings with what you owe each person), "what do I owe people", "sweep", "show me the review queue", "auto-log my calls" / "stop auto-logging"; and a **plain-words rail** in both skills — no dedupe keys, typed records, tombstones, namespaces, or MCP in conversation, ever. CI checks the rail and the phrases.
 
+- **The skill builds the schedule** (Tend rule 7 + `references/scheduling.md`): "make this automatic" detects a scheduling capability (Claude's desktop app, Claude Code; claude.ai chat has none — the skill says so and falls back to "say sweep"), proposes name/cadence/what-each-run-does on a ledger, creates a single `sales-memory-sweep` task from a self-contained prompt template (load the skill or STOP; dead-Fulcra stop; plain-words digest), reads it back, and explains the app-open caveat. "stop my sweeps" disables it.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.

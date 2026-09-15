@@ -24,6 +24,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Unattended auto-log — ineligible items park | **Pass — 2026-09-15** (below; calendar-only item with undeterminable pipeline; the no-summary brokered variant not yet observed) |
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
+| Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **See 2026-09-15 row below** |
 
 ## 2026-09-15 — Snapshot → Commit → Veto, live end to end (Claude Google Calendar connector + Otter + official Fulcra connector)
 

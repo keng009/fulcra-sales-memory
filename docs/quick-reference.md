@@ -29,9 +29,7 @@ Two businesses? Say **"what moved this week in Go Beyond"** (or whatever you nam
 
 ## Make it automatic
 
-If your Claude has scheduled tasks, create one that says **"run my sales-memory sweep"** on weekday afternoons. Each run finds new calls and messages and either asks "3 new — log them?" or, if you've told it to, logs the clear ones and shows you a short digest. To turn on the hands-off version, say **"auto-log my calls"** — Claude writes one line in your memory file, and you can undo it any time by saying **"stop auto-logging."**
-
-No scheduled tasks? Say **"sweep"** whenever you open a chat. Same result.
+Say **"auto-log my calls"** once — from then on, every sweep logs your calls and meetings without asking and leaves you a short digest (undo any time with **"stop auto-logging"**). Then say **"make this automatic"** — where your Claude can schedule things (the desktop app can), Claude builds a weekday-afternoon sweep for you and reads it back; where it can't, it tells you, and you just say **"sweep"** whenever you open a chat. Same result either way; only the trigger differs.
 
 ## Your CRM (optional)
 
