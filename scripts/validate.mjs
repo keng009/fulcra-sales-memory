@@ -107,6 +107,8 @@ const RAILS = [
   ["sweep watermarks", "## Sweep watermarks", [full, contract]],
   ["auto-log opt-in (ADR-0009)", "auto-log", [full, contract]],
   ["sweep receipts", "## Sweep log", [full, contract]],
+  ["email source opt-in (ADR-0010)", "signals, not conversations", [full]],
+  ["email thread key form", "gmail-thread", [full, contract]],
   ["commit ledger", "Parked for review", [demo, full, contract]],
   ["read scoping", "every read these skills perform", [demo, full, contract]],
 ];

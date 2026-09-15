@@ -2,6 +2,11 @@
 
 User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
 
+## [Unreleased] — 0.2.0
+
+### Added
+- **Email as a sweep source** (ADR-0010, opt-in per pipeline, read-only): add `email` to an `auto-log` line and the sweep reads the mailbox by capability (Gmail: search threads, read thread), logs real conversations with an external counterparty as `email` touchpoints keyed `touch:gmail-thread:<id>`, surfaces automated notifications as **signals** in the digest without logging them, maps a mailbox to a business with `email-pipeline:`, and never sends, replies, or labels. README privacy section discloses it; CI anchors.
+
 ## [0.1.0] — 2026-09-15 — first release
 
 ### Added
