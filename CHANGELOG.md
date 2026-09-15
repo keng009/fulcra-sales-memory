@@ -15,5 +15,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **Browser-observation account-risk posture** (engine-level, all siblings): inbox-only, two windows a day, read-only-what-is-new, the user's own browser profile only, stop-on-first-warning with backoff, and an explicit no-decoy-activity rule — restraint, not mimicry, plus the honest ToS disclosure. **LinkedIn lead-sequence discipline** (this flavor): judgment-based ICP screening with a fit score, connect → thank-you (+1 day) → signal-anchored action message (+7 days) tracked as dated follow-ups, 30-day drop candidates in Report, re-screen instead of discard, multi-channel touches — drafts only.
 
+- First live run recorded (testing.md 2026-09-15): snapshot → one-yes commit → veto on a real account with two registered pipelines — folder init, type creation, 8 files + 9 records, backfill hygiene, read-back, tombstone.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
