@@ -71,6 +71,8 @@ const RAILS = [
   ["no-credentials rail", "credentials, tokens, or secrets", [demo, full]],
   ["gated-contact-creation rail (ADR-0008)", "commit/backfill imports never create contacts", [full]],
   ["reads-never-write rail", "Reads never write", [full]],
+  ["Fulcra connect guide referenced", "connect-fulcra.md", [full]],
+  ["official fulcra-get-started pointer", "fulcra-get-started", [demo, full]],
   ["review queue convention", "review-queue.md", [full, contract]],
   ["CRM-origin key form", "touch:attio-note:", [full, contract]],
   ["calendar-origin key form", "touch:cal:", [demo, full, contract]],
