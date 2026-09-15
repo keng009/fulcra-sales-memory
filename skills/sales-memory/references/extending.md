@@ -30,6 +30,10 @@ Source Level 3 is any tool that fills these slots: **T1** list transcripts in a 
 
 Three checks before trusting a new tool, learned the hard way: **timezone** — verify one transcript's start time against its calendar event before matching anything (Otter reports Pacific regardless of the user's zone); **participants** — scheduler-brokered calls often list only the broker, so identity comes from the calendar attendee email; **empty recordings** — a transcript with no content means capture failed, not that the meeting didn't happen. Test: log one meeting from the tool, log it again and confirm the skip, record the row, and add the tool to the Level 3 examples in the skill with its timezone behavior noted.
 
+## 2b. Mail tools (Gmail, Outlook, …)
+
+Email is an opt-in sweep source (ADR-0010). A mail tool qualifies with three slots: **E1** search threads by date (newer-than a watermark); **E2** read a thread (sender, recipients, date, body); **E3** a stable thread id → key `touch:<tool>-thread:<id>`. Gmail's official connector fills all three (`search_threads`, `get_thread`). Reading mail never sends, replies, labels, or marks anything. The signals-vs-conversations line in the skill is what keeps this from mirroring an inbox: notification mail is surfaced in the digest, never logged as a touchpoint.
+
 ## 3. CRMs
 
 Already fully specified: the eight capability slots, note format, per-CRM quirks, and the 10-minute promotion protocol live in `crm-sync.md`; connector paths and the lean structure recipe per CRM live in the `crm-setup` skill's `references/connect-crm.md`. Add a CRM by filling the slots, running the write / dedupe / import tests, recording the rows, and PR-ing the registry section — exactly as that file says.

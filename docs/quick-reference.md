@@ -29,7 +29,7 @@ Two businesses? Say **"what moved this week in Go Beyond"** (or whatever you nam
 
 ## Make it automatic
 
-Say **"auto-log my calls"** once — from then on, every sweep logs your calls and meetings without asking and leaves you a short digest (undo any time with **"stop auto-logging"**). Then say **"make this automatic"** — where your Claude can schedule things (the desktop app can), Claude builds a weekday-afternoon sweep for you and reads it back; where it can't, it tells you, and you just say **"sweep"** whenever you open a chat. Same result either way; only the trigger differs.
+Say **"auto-log my calls"** once — from then on, every sweep logs your calls and meetings without asking and leaves you a short digest (add **"and my email"** to include real email conversations; signup notifications and the like are shown as signals, not logged) (undo any time with **"stop auto-logging"**). Then say **"make this automatic"** — where your Claude can schedule things (the desktop app can), Claude builds a weekday-afternoon sweep for you and reads it back; where it can't, it tells you, and you just say **"sweep"** whenever you open a chat. Same result either way; only the trigger differs.
 
 ## Your CRM (optional)
 
