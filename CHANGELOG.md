@@ -17,5 +17,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - First live run recorded (testing.md 2026-09-15): snapshot → one-yes commit → veto on a real account with two registered pipelines — folder init, type creation, 8 files + 9 records, backfill hygiene, read-back, tombstone.
 
+- **Connecting Fulcra guide** (`references/connect-fulcra.md`): both setup paths — Claude's app (account → Customize → Connectors → verify) and agent harnesses via Fulcra's official `fulcra-get-started` / `fulcra-connect` skills — with the honest line that no skill can create the account or authorize the connector itself. Both preflights and the README install steps point to it; CI now requires the pointer in every skill.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
