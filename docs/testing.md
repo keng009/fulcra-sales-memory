@@ -12,7 +12,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 
 | Surface | Status |
 |---|---|
-| `sales-demo` full session (zip upload → snapshot/capture → save → prep brief) | **Untested** |
+| `sales-demo` full session (zip upload → snapshot/capture → save → prep brief) | **Pass — 2026-09-15** (below) |
 | `sales-memory` snapshot → commit → veto on a real account | **Pass — 2026-09-15** (below) |
 | `/sales/` folder init, `Sales Touchpoint` create-if-absent, dual write + read-back | **Pass — 2026-09-15** (below) |
 | CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards | **Pass — 2026-09-15** (below); Attio task creation, HubSpot, Notion, Affinity still untested |
@@ -92,4 +92,23 @@ A `sales-memory-sweep` task was created through the desktop app's scheduling too
 
 Residual: the first run of a task pauses for connector approvals, which then stick to the task — the skill tells the user this when it creates the schedule.
 
-First release is gated on at least: one full `sales-demo` session through Claude's actual zip-upload UI (still pending), and one `sales-memory` snapshot→commit→veto run on a real account (done, above) — both recorded here (dated, sanitized).
+## 2026-09-15 — `sales-demo` through Claude's real skill-upload UI (the release gate)
+
+Run by the maintainer in Claude's chat app, on the real account — the harder case, since `/sales/` already held memory from earlier the same day.
+
+| Step | Result |
+|---|---|
+| Zip upload (Customize → Skills → + Create skill → Upload a skill) | Pass on the second try — see the finding below |
+| Frontmatter accepted; skill listed as `sales-demo` | Pass |
+| Preflight, catalog moment, source detection, weekly-chunk sweep of 30 days | Pass — read-only, said so |
+| Existing memory recognized as the baseline: 14 stored conversations and the day's sweep watermark used, nothing re-saved | Pass — the dedupe scan working through the real UI ("nothing new gets duplicated") |
+| Commit ledger: one new Will-save line (a brokered intro classified from its transcript), two parked | Pass — the user ruled on the parked items in-session (one assigned to a pipeline pending details, one dropped as personal) and the skill honored both |
+| Save: relationship file, typed record, INDEX line; read-back of both representations | Pass |
+| Prep brief generated from the stored data, with an explicit "confirm this — may be a mis-transcription" on an uncertain product name | Pass |
+| Outro: the five daily phrases, the cross-assistant test prompt, the no-migration note | Pass |
+
+**Finding (fixed in the docs):** a zip built with PowerShell's `Compress-Archive` on Windows stores entry paths with backslashes (`sales-demo\SKILL.md`); Claude's uploader rejects it with "Zip file contains path with invalid characters". Zips built with forward-slash entries upload fine; the release workflow (Linux) always produces forward slashes. The quick reference now says: on Windows, use the release zip.
+
+**Finding (fixed in the skills):** "preflight" leaked into spoken output; added to the plain-words rail.
+
+Release gate met: both required runs recorded above. v0.1.0 tagged 2026-09-15.

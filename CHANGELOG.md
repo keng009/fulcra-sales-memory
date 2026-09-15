@@ -2,7 +2,7 @@
 
 User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
 
-## [Unreleased] — 0.1.0
+## [0.1.0] — 2026-09-15 — first release
 
 ### Added
 - Initial public packet, forked 2026-08-31 from the [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory) engine (contract v3.1 plus review rounds 5–8) and re-flavored for founders selling their own product (ADR-0007): `/sales/` namespace, `Sales Touchpoint` type, lead/customer/account vocabulary, sales-stage `stage_noted` vocabulary (`lead` → `closed-won`/`closed-lost`), "Leads going cold" reporting, "Account history check".
@@ -33,5 +33,5 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **The skill builds the schedule** (Tend rule 7 + `references/scheduling.md`): "make this automatic" detects a scheduling capability (Claude's desktop app, Claude Code; claude.ai chat has none — the skill says so and falls back to "say sweep"), proposes name/cadence/what-each-run-does on a ledger, creates a single `sales-memory-sweep` task from a self-contained prompt template (load the skill or STOP; dead-Fulcra stop; plain-words digest), reads it back, and explains the app-open caveat. "stop my sweeps" disables it.
 
-### Release gate
-- First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
+### Release gate — met
+- Both required live runs are recorded in [docs/testing.md](docs/testing.md): the demo through Claude's real skill-upload UI (2026-09-15) and snapshot → commit → veto on a real account (2026-09-15). Also fixed at the gate: the Windows zip path finding (docs) and "preflight" in spoken output (plain-words rail).

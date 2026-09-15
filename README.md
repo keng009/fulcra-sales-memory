@@ -18,15 +18,13 @@ You don't need to know what any of the words below mean. Setup is three clicks a
 
 Start with the demo if you're deciding; start with `sales-memory` if you're already sold. Both write the same formats to the same folder.
 
-> **Pre-release note (this block is removed at the first release):** no release has been published yet — the "latest release" links below will work once v0.1.0 ships ([#1](https://github.com/keng009/fulcra-sales-memory/issues/1) is the gate). Until then, zip the skill folders yourself as the install steps describe.
-
 ## See it in 10 minutes — `sales-demo`
 
 One guided session — about ten minutes once installed. The skill inspects your Fulcra data catalog, builds a **read-only snapshot of your last 30 days of customer conversations** from whatever you've connected (calendar, meeting tools), saves it as memory on a single yes — files versioned; the full skill adds a veto flow that can strike any saved item later — and generates a prep brief from what it just stored. Nothing is written until you say so; with no sources connected, it falls back to capturing one conversation conversationally. Think of it as the hello-world; `sales-memory` below is the product.
 
 1. Create a Fulcra account at [fulcra.ai](https://fulcra.ai) if you don't have one. An empty account is fine — the demo works without prior data.
 2. In Claude, open **Customize → Connectors** and connect **Fulcra**. First time, or using an agent harness instead of Claude's app? [Connecting Fulcra](skills/sales-memory/references/connect-fulcra.md) has both paths — and points at Fulcra's official `fulcra-get-started` skill, which lets your agent drive the connection.
-3. Download `sales-demo.zip` from the [latest release](https://github.com/keng009/fulcra-sales-memory/releases/latest) *(none published yet — see the note above)* (or zip the `skills/sales-demo` folder yourself) and upload it in Claude under **Customize → Skills → + Create skill → Upload a skill**. If Skills isn't visible, enable it under **Settings → Capabilities** first.
+3. Download `sales-demo.zip` from the [latest release](https://github.com/keng009/fulcra-sales-memory/releases/latest) (or zip the `skills/sales-demo` folder yourself) and upload it in Claude under **Customize → Skills → + Create skill → Upload a skill**. If Skills isn't visible, enable it under **Settings → Capabilities** first.
 4. Start a new chat and say: **"run the Fulcra sales demo"**.
 
 ## Make it your workflow — `sales-memory`
@@ -34,7 +32,7 @@ One guided session — about ten minutes once installed. The skill inspects your
 The ongoing version: log customer conversations as they happen, prep before meetings, review the week by account, catch leads going cold before the deal loses momentum.
 
 1. Same Fulcra account and connector as above.
-2. Download `sales-memory.zip` from the [latest release](https://github.com/keng009/fulcra-sales-memory/releases/latest) *(none published yet — see the note above)* (or zip the `skills/sales-memory` folder — its `references/` subfolder must travel inside the zip) and upload it the same way.
+2. Download `sales-memory.zip` from the [latest release](https://github.com/keng009/fulcra-sales-memory/releases/latest) (or zip the `skills/sales-memory` folder — its `references/` subfolder must travel inside the zip) and upload it the same way.
 3. Say **"show me my last 30 days"**, **"log my call with Jordan"**, **"have we talked to this company before?"**, **"prep me for tomorrow"**, **"what moved this week"**, or **"which leads have gone cold"**.
 
 Only the Fulcra connector is required. If calendar data is reachable (in your Fulcra account or via a Claude calendar connector), the skill detects and uses it: conversations get corroborated against real meetings, and "prep me for tomorrow" reads the actual calendar. If a transcript tool (Otter, Zoom, Fireflies) is connected, it can log meetings straight from transcripts. Paste a lead's WhatsApp, LinkedIn, or iMessage thread and "log this" captures it too — and inbound product signals (a signup notification, a demo request, a trial-started email) are lead sources like any other: paste one and log it. Nothing to configure — each session it states what it found.
@@ -78,7 +76,7 @@ These skills are instruction files: no backend of their own, no telemetry, nothi
 
 ## Status — honest and current
 
-This packet was forked 2026-08-31 from the engine of [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory), whose write paths are live-tested with dated evidence (snapshot→commit→veto, stable per-source dedupe keys, CRM import + circularity, partial-failure healing, live sweep — see its [testing matrix](https://github.com/keng009/fulcra-dealflow-memory/blob/main/docs/testing.md)). **This flavor's first live run passed on 2026-09-15** (snapshot → commit → veto on a real account, two pipelines) — see [docs/testing.md](docs/testing.md) for exactly what has and hasn't been exercised. The demo's zip-upload journey and the CRM/messaging adapters remain untested under this flavor until their rows exist.
+This packet was forked 2026-08-31 from the engine of [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory), whose write paths are live-tested with dated evidence (snapshot→commit→veto, stable per-source dedupe keys, CRM import + circularity, partial-failure healing, live sweep — see its [testing matrix](https://github.com/keng009/fulcra-dealflow-memory/blob/main/docs/testing.md)). **v0.1.0 (2026-09-15)** — live-tested on a real account: the demo through Claude's real skill-upload UI, snapshot → commit → veto, Attio sync and import guards, unattended auto-log, and a scheduled sweep built by the skill — see [docs/testing.md](docs/testing.md) for every row, including what is still designed-but-untested (CRM contact creation, `crm-setup`'s structure build, messaging connectors, HubSpot/Notion).
 
 ---
 

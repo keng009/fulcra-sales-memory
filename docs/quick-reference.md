@@ -6,7 +6,7 @@ You don't need to know what a connector, a record, or an MCP is. You talk to Cla
 
 1. Make a free account at [fulcra.ai](https://fulcra.ai). It's where your memory lives — yours, not ours.
 2. In Claude: **Customize → Connectors → add Fulcra**, then sign in.
-3. Upload the skill: **Customize → Skills → + Create skill → Upload a skill**, pick `sales-memory.zip`. Get it from the [releases page](https://github.com/keng009/fulcra-sales-memory/releases/latest) — or, until the first release is out, download the repo as a zip (green **Code** button → Download ZIP), unzip it, and zip up just the `skills/sales-memory` folder yourself. Then open a new chat and say **"show me my last 30 days"**. (If Skills isn't visible in Claude, turn it on under Settings → Capabilities first.)
+3. Upload the skill: **Customize → Skills → + Create skill → Upload a skill**, pick `sales-memory.zip` from the [releases page](https://github.com/keng009/fulcra-sales-memory/releases/latest). (Use that zip rather than zipping the folder yourself — on Windows, home-made zips can be rejected for their internal path format.) Then open a new chat and say **"show me my last 30 days"**. (If Skills isn't visible in Claude, turn it on under Settings → Capabilities first.)
 
 Optional, later: connect your calendar and your meeting recorder (Otter, Zoom, Fireflies) in Connectors too. The more you connect, the less you type.
 
