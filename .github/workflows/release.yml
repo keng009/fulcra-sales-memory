@@ -18,8 +18,10 @@ jobs:
           mkdir -p dist
           (cd skills && zip -r ../dist/sales-demo.zip sales-demo)
           (cd skills && zip -r ../dist/sales-memory.zip sales-memory)
+          (cd skills && zip -r ../dist/crm-setup.zip crm-setup)
           unzip -l dist/sales-demo.zip | grep -q "sales-demo/SKILL.md"
           unzip -l dist/sales-memory.zip | grep -q "sales-memory/references/conventions.md"
+          unzip -l dist/crm-setup.zip | grep -q "crm-setup/references/connect-crm.md"
       - name: Create release with assets
         env:
           GH_TOKEN: ${{ github.token }}

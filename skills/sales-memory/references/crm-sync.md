@@ -2,7 +2,7 @@
 
 How the `sales-memory` skill works with a connected CRM. Read this file when CRM sync is on and a touchpoint is about to be written to the CRM, or when deciding what a connected CRM can do. The dedupe key and provenance formats are defined in `conventions.md` (same folder) — that file is canonical; nothing here overrides it.
 
-CRM involvement is optional and detected, never required. If no CRM tools are connected, none of this applies and the skill should not mention CRMs at all.
+CRM involvement is optional and detected, never required. If no CRM tools are connected, none of this applies and the skill should not mention CRMs at all. A user who *wants* a CRM but has none connected — or has one with no pipeline structure yet — is handed to the `crm-setup` skill in this packet, which walks through connecting one and giving it stages that mirror this skill's vocabulary.
 
 ## Capability tiers — a CRM qualifies by what its tools can do, not by name
 

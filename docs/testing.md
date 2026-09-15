@@ -15,9 +15,11 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | `sales-demo` full session (zip upload → snapshot/capture → save → prep brief) | **Untested** |
 | `sales-memory` snapshot → commit → veto on a real account | **Pass — 2026-09-15** (below) |
 | `/sales/` folder init, `Sales Touchpoint` create-if-absent, dual write + read-back | **Pass — 2026-09-15** (below) |
-| CRM adapters (any tier) under this flavor | **Untested** |
+| CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards | **Pass — 2026-09-15** (below); Attio task creation, HubSpot, Notion, Affinity still untested |
 | Gated CRM contact creation, slot 8 (ADR-0008 — this flavor's one engine divergence) | **Untested** |
 | Messaging capture (paste tier) under this flavor | **Untested** |
+| `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
+| `crm-setup`: optional list creation via `create-list` | **Untested** |
 
 ## 2026-09-15 — Snapshot → Commit → Veto, live end to end (Claude Google Calendar connector + Otter + official Fulcra connector)
 
@@ -35,6 +37,23 @@ Run on the maintainer's real account against a fresh `/sales/` namespace (no fol
 | Read-back | Pass — all 9 payloads round-trip intact via `get_records` (pipeline and stage fields included); no read lag observed |
 | Veto → tombstone | Pass — one committed touchpoint vetoed: relationship file rewritten as a new version without the entry (earlier version retained and listed as archived), key added to `## Vetoed keys`; the typed record remains stored and is excluded by the read filter |
 
-Still untested from this flow: the release-ZIP upload journey end to end (#1 — human step); CRM adapters incl. slot 8 (#3/#4); the scheduled sweep (#5); slot 6 (#6); messaging capture (paste tier).
+Still untested from this flow: the release-ZIP upload journey end to end (#1 — human step); CRM slot 8 (#4); the scheduled sweep (#5); slot 6 (#6); messaging capture (paste tier).
+
+## 2026-09-15 — Attio CRM path under this flavor (official Attio connector, real workspace, real contacts)
+
+Run on the maintainer's own workspace against two real contacts from the `gobeyond` pipeline, on the maintainer's explicit choice of real contacts over a throwaway. Attio has no connector delete, so the two sync notes remain.
+
+| Test | Result |
+|---|---|
+| Contact match, email first then name | Pass — one contact matched cleanly; the other existed as TWO person records with different emails, and the email from the calendar attendee list selected exactly one — the rule exists for this case |
+| Dedupe scan before writing (`search-notes-by-metadata` filtered to the record) | Pass — third-party notes present, no title carrying the touchpoint key → write proceeds |
+| Sync note write (`create-note`, person as parent): title ends with `[touch:<key>]`, body = Summary / Follow-ups / `Source:` trio | Pass — body read back byte-identical via `get-note-body` |
+| Dedupe re-run | Pass — the key is found in the note title on both contacts; a second write is skipped |
+| Import path, cross-key guard: third-party notes whose titles carry a transcript id already stored as `touch:<transcript-id>` | Pass — recognized as the same conversation, not imported under a second key |
+| Import path, circularity guard: this system's own sync notes (title carries `[touch:`) | Pass — refused as own output on the re-scan |
+| Tasks (one per follow-up) | Not exercised — both touchpoints were backfills, which never carry open follow-ups; the task path remains untested under this flavor |
+| Delete | Confirmed absent — cleanup is manual in the Attio UI, as the veto disclosure says |
+
+Side observation, not this packet's behavior: a separate auto-logger in the same workspace had written each third-party note twice (seconds apart) — the cross-key guard handled both copies identically.
 
 First release is gated on at least: one full `sales-demo` session through Claude's actual zip-upload UI (still pending), and one `sales-memory` snapshot→commit→veto run on a real account (done, above) — both recorded here (dated, sanitized).
