@@ -99,6 +99,8 @@ const RAILS = [
   ["extension guide referenced", "extending.md", [full]],
   ["any-match-confirms rule", "already present in ANY representation", [full, contract]],
   ["sweep watermarks", "## Sweep watermarks", [full, contract]],
+  ["auto-log opt-in (ADR-0009)", "auto-log", [full, contract]],
+  ["sweep receipts", "## Sweep log", [full, contract]],
   ["commit ledger", "Parked for review", [demo, full, contract]],
   ["read scoping", "every read these skills perform", [demo, full, contract]],
 ];

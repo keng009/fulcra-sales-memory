@@ -146,7 +146,7 @@ Run this before acting on any request. Keep the spoken output short — two or t
 
    - README.md — what this folder is and the rules for writing to it
    - INDEX.md — this file
-   - handoff.md — open follow-ups, pending intros, next actions, vetoed keys, sweep watermarks, preferences
+   - handoff.md — open follow-ups, pending intros, next actions, vetoed keys, sweep watermarks, preferences, sweep log
    - review-queue.md — ambiguous items parked for the user's judgment
    ```
 
@@ -171,6 +171,9 @@ Run this before acting on any request. Keep the spoken output short — two or t
    (none yet)
 
    ## Preferences
+   (none yet)
+
+   ## Sweep log
    (none yet)
    ```
 
@@ -308,6 +311,12 @@ After a commit exists, ongoing upkeep arrives as small deltas, never projects:
 3. **The queue, occasionally.** When the user seems to have a spare moment (never mid-task), surface the review queue count once: "3 items parked for your judgment whenever you want them." Process rulings immediately; each ruling either writes the item properly or drops it.
 4. **Staleness at scale.** Computing "going cold" never requires reading every relationship file: one windowed `get_records` call gives the active set; going-cold = INDEX entries minus that set (ADR-0006 access rules).
 5. **Scheduled sweep (opt-in).** When the user has set up a recurring session (a scheduled task), it runs the Deltas rule at schedule, cursored by `## Sweep watermarks` in `handoff.md` (one line per source: `- <source>: <ISO-8601 of last completed sweep>`; a missing line means first run — ask how far back, defaulting to 7 days). Check each connected conversation source (transcripts, messaging tools per `references/messaging-capture.md`, CRM notes) for lead and customer activity after its watermark, and present ONE digest line — "3 new lead threads since yesterday — want them logged?" One yes commits per the standard rules; ambiguity parks (parked items live in the review queue and are not re-offered by later sweeps); nothing is ever written without the yes. A watermark advances to the sweep's start time only after the digest is fully resolved (committed, declined, or parked) — on failure or interruption it stays put, and the per-destination dedupe scans make the resulting re-reads safe. A sweep is Tend at a schedule, not a new consent model.
+6. **Unattended auto-log (ADR-0009 — opt-in, a standing revocable yes).** Only when `## Preferences` in `handoff.md` carries an `auto-log` line — `- auto-log: transcripts, calendar` (single pipeline) or `- auto-log[<pipeline>]: transcripts, calendar` (per pipeline). No line → rule 5 exactly as written, digest and one yes. With the line, a scheduled sweep commits **eligible** items without asking and parks everything else:
+   - **Eligible = ALL of:** (a) a transcript with a real summary exists, OR a calendar event with at least one external, non-broker attendee email; (b) the counterparty resolves to exactly one person (email first, then name); (c) the pipeline is determinable — one pipeline registered, or the person's relationship file already carries `Pipeline:`, or the transcript makes it unambiguous. A no-summary recording, an attendee-less named meeting, a broker-only participant list, or a person who could belong to either pipeline → `review-queue.md`, as in rule 5. Auto mode never lowers the bar; it removes the wait.
+   - **What it writes:** the standard dual write with the stable per-source key, `evidence` ending in `, auto-log` (`otter transcript <id>, calendar <date>, auto-log`) so every auto-logged item is findable and vetoable; plus the CRM note if that pipeline has a CRM mapped (`crm[<pipeline>]:` or a single `crm:` line — never another pipeline's CRM). **No tasks and no open follow-ups** in auto mode: follow-up signals stay in the summary and are listed in the digest; accepting the digest is what turns them into tasks.
+   - **Receipt, every run:** append one line under `## Sweep log` in `handoff.md` — `- <ISO start> | sources: <list> | committed <n> | parked <n> | skipped-duplicate <n> | failed: <none|detail>`. Keep the newest 30 lines; move older ones to `/sales/sweep-log-archive.md` (append, versioned). Post a digest after any run that committed or parked anything — silent accumulation is forbidden.
+   - **Failure playbook, in order:** a dead Fulcra (expired token, persistent 401 diagnosed via `list_files` — see Rails) is a STOP: no memory writes, no CRM writes, no watermark move, and the receipt cannot be written, so report the run as failed in the digest; an unreachable gather source (transcripts, calendar) is skipped, named in the receipt, and its watermark left unmoved; a failed CRM write leaves the memory write standing and retries next run (the dedupe scan makes that safe).
+   - **Invariants unchanged:** veto set loaded first; vetoed keys never auto-re-imported; watermarks advance only after resolution, receipt written in the same failure-safe order (after resolution, watermark last); removing the `auto-log` line revokes the standing yes and nothing else changes.
 
 ## Rails
 
