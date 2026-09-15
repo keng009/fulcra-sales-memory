@@ -20,6 +20,10 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Messaging capture (paste tier) under this flavor | **Untested** |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
 | `crm-setup`: optional list creation via `create-list` | **Untested** |
+| Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Untested** |
+| Unattended auto-log — ineligible brokered intro parks | **Untested** |
+| Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
+| Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
 
 ## 2026-09-15 — Snapshot → Commit → Veto, live end to end (Claude Google Calendar connector + Otter + official Fulcra connector)
 

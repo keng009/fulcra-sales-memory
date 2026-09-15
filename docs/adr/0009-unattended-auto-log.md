@@ -1,6 +1,6 @@
 # Unattended auto-log: a standing, revocable yes per pipeline and source
 
-**Status: PROPOSED (2026-09-15) — awaiting the maintainer's ruling. Nothing in the skills implements this until it is accepted.**
+**Status: ACCEPTED (2026-09-15, Nick — as drafted: calendar-only eligibility allowed, no amendments). Implemented in `sales-memory` Tend rule 6 and the contract's handoff rows; promotion to "tested" still requires the four testing.md scenarios below.**
 
 ## Context
 
@@ -8,7 +8,7 @@ Every write in this packet sits behind one explicit yes (ADR-0005): the snapshot
 
 The private setup also produced the failure lessons now in the engine's rails (empty calendar results that are not quiet days, auth failures masked as missing files, Pacific transcript timestamps, empty recordings on brokered intros). Unattended mode is only safe *because* those rails exist; this ADR depends on them.
 
-## Decision (proposed)
+## Decision
 
 Add an **opt-in unattended mode** to the scheduled sweep (Tend rule 5). It is a standing yes the user gives in advance, scoped and revocable, not a new consent-free path.
 
@@ -36,4 +36,4 @@ Add an **opt-in unattended mode** to the scheduled sweep (Tend rule 5). It is a 
 - The sweep's watermark rules are unchanged; the receipt line is written in the same failure-safe order (after resolution, watermark last).
 - Promotion requires testing.md rows: an unattended run that commits eligible items, one that parks an ineligible brokered intro, one that hits a dead Fulcra and stops with no writes, and a revocation (line removed → next run digests instead of committing).
 - ROADMAP's "out of scope until its own ADR" line points here.
-- Open question for the ruling: whether the calendar-only path (no transcript) should be eligible at all, or whether auto mode should require a transcript with a summary. The proposed text allows calendar-only with an external attendee email; the stricter option is one word to change.
+- The calendar-only path (no transcript, but an external non-broker attendee email) IS eligible, by the maintainer's ruling; the stricter transcript-required variant remains available as a one-word amendment if live rows show calendar-only auto-commits producing weak entries.
