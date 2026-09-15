@@ -113,4 +113,28 @@ Run by the maintainer in Claude's chat app, on the real account — the harder c
 
 **Finding (fixed in the skills):** "preflight" leaked into spoken output; added to the plain-words rail.
 
+## 2026-09-15 — Email as a source (ADR-0010), first live run
+
+Run on the maintainer's real mailbox (the Gmail connector) minutes after \`email\` was added to both pipelines' auto-log lines, over a two-week window. Manually triggered; the scheduled task's next run will exercise the re-sweep skip.
+
+| Step | Result |
+|---|---|
+| Mailbox read by capability (search threads by date, read thread), read-only | Pass — no label, reply, or send |
+| Noise filtered: newsletters, event broadcasts, a scheduler's own status mails, calendar invitation mail | Pass |
+| Signals-vs-conversations line: a product notification (an evaluator lead) and a broker's intro offers/debriefs surfaced as **signals** in the digest, not logged | Pass |
+| Eligible conversations: external counterparty, one resolved person, real correspondence | Pass — 8 threads across 6 people; 5 existing relationships updated newest-first, 1 new relationship created |
+| Pipeline classified from content first (a thread in the Go Beyond mailbox whose content was a Fulcra engineering conversation went to \`fulcra\`, not the mailbox default) | Pass — the mailbox default is a fallback, not a rule |
+| Keys \`touch:gmail-thread:<id>\`, channel \`email\`, evidence \`gmail thread <id>, auto-log\`, one touchpoint per thread | Pass — read back via \`get_records\` |
+| CRM sync of email touchpoints where the pipeline had a CRM mapped | Pass — Attio notes on three matched contacts, dedupe scan first |
+
+## 2026-09-15 — HubSpot Tier W (official connector, real portal, real contact)
+
+| Step | Result |
+|---|---|
+| Contact search by name (\`search_crm_objects\` CONTACT) | Pass |
+| Dedupe scan: list the contact's notes (\`search_crm_objects\` NOTE, \`associatedWith\` the contact) and check body previews for the key | Pass — a third-party note present, no key → write proceeds |
+| Note write (\`manage_crm_objects\` createRequest, objectType \`notes\`, key on the first body line, \`hs_timestamp\`, association to CONTACT) | Pass — created and associated in one call |
+| Read-back: the key is findable in the associated note's body preview | Pass |
+| Tasks | Not exercised |
+
 Release gate met: both required runs recorded above. v0.1.0 tagged 2026-09-15.
