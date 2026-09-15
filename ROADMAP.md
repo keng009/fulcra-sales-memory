@@ -14,7 +14,7 @@ The capability-based adapter layers came over from the fork point; none is exerc
 
 - **Scheduled message-sweep digest** ([#5](https://github.com/keng009/fulcra-sales-memory/issues/5)): the behavior is now specified in the full skill (Tend rule 5) — leads go cold in DMs, not email; what remains is the live scheduled run that promotes it from designed to tested.
 - **Notes on the account's deal/opportunity object** ([#6](https://github.com/keng009/fulcra-sales-memory/issues/6)): each tracker's own object model, never touching fields or stages.
-- Zero-touch auto-commit stays out of scope until its own ADR (consent-posture change, per-user opt-in).
+- Zero-touch auto-commit: proposed as [ADR-0009](docs/adr/0009-unattended-auto-log.md) (a standing, revocable, per-pipeline yes with high-confidence-only eligibility, receipts, and a dead-Fulcra stop) — awaiting the maintainer's ruling; nothing ships until it is accepted.
 
 ## Sales-specific features — earned, not guessed
 
