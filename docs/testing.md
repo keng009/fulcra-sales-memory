@@ -24,7 +24,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Unattended auto-log — ineligible items park | **Pass — 2026-09-15** (below; calendar-only item with undeterminable pipeline; the no-summary brokered variant not yet observed) |
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
-| Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **See 2026-09-15 row below** |
+| Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **Pass — 2026-09-15** (below) |
 
 ## 2026-09-15 — Snapshot → Commit → Veto, live end to end (Claude Google Calendar connector + Otter + official Fulcra connector)
 
@@ -77,6 +77,19 @@ Run on the maintainer's real account minutes after the standing yes was written 
 | Receipt + watermarks written last, after full resolution | Pass — one `## Sweep log` line (committed 5 / parked 3 / skipped-duplicate 0 / failed none); both source watermarks advanced to the run's start time |
 | Digest posted | Pass — presented to the user after the run |
 
-Still untested for auto mode: the dead-Fulcra STOP (can only be caught, not staged), revocation (line removed → next run digests instead), and the scheduled trigger.
+Still untested for auto mode: the dead-Fulcra STOP (can only be caught, not staged) and revocation (line removed → next run digests instead).
+
+## 2026-09-15 — Scheduled trigger (Tend rule 7), live
+
+A `sales-memory-sweep` task was created through the desktop app's scheduling tool with the self-contained prompt from `references/scheduling.md` (weekdays, late afternoon, the user's timezone), then fired once manually — the same path a scheduled fire takes. The fresh session loaded the skill file from disk, ran Tend rules 5–6 against the live store minutes after a manual sweep had advanced the watermarks, and completed.
+
+| Step | Result |
+|---|---|
+| Task creation via the scheduling tool, cron in local time, single task (no duplicate) | Pass |
+| Fresh-session run loads the skill from the repo path and follows it (no "run from memory") | Pass — run status succeeded |
+| Sweep with nothing new since the previous watermark | Pass — see the receipt line the run appended and the watermark advance (verified by reading `handoff.md` back) |
+| Notification on completion to the creating session | Pass |
+
+Residual: the first run of a task pauses for connector approvals, which then stick to the task — the skill tells the user this when it creates the schedule.
 
 First release is gated on at least: one full `sales-demo` session through Claude's actual zip-upload UI (still pending), and one `sales-memory` snapshot→commit→veto run on a real account (done, above) — both recorded here (dated, sanitized).

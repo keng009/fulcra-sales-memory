@@ -104,6 +104,19 @@ The user striking a stored touchpoint ("that one's wrong"). The file entry is re
 **Commit ledger**:
 The itemized list shown immediately before the one collective yes — one line per draft (person, date, source, one-line gist), split into Will save and Parked for review. What makes ADR-0005's "read exactly what will be saved" literal.
 
+**Pipeline**:
+For sellers with more than one business: a registered name in `handoff.md`'s `## Pipelines` list that a relationship belongs to (`Pipeline:` line; `pipeline` payload field). Reports and going-cold group by it. Single-business users never see it.
+_Avoid_: workstream, venture (in user-facing output)
+
+**Auto-log**:
+The standing, revocable yes for unattended sweeps (ADR-0009): a `- auto-log[<pipeline>]: <sources>` line under `## Preferences`. With it, a sweep commits only high-confidence items and parks the rest; without it, the sweep digests and asks. Turned on by "auto-log my calls", off by "stop auto-logging".
+
+**Sweep log**:
+The per-run receipt list in `handoff.md` (`## Sweep log`): one line per sweep — start time, sources, committed / parked / skipped-duplicate counts, failures. Newest 30 kept; older lines move to `sweep-log-archive.md`.
+
+**crm-setup**:
+The packet's third skill: connect a CRM (or set one up), inspect it, give it a lean pipeline whose stages mirror this skill's vocabulary, record the stage map, hand off to sync. Structure only — never contacts, deals, or notes.
+
 **Sweep watermark**:
 The per-source cursor in `handoff.md` (`## Sweep watermarks`) that a scheduled sweep reads and advances — only after its digest is fully resolved — so repeated sweeps never rediscover the same messages.
 
