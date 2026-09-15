@@ -138,4 +138,4 @@ Run on the maintainer's real mailbox (the Gmail connector) minutes after \`email
 | Read-back: the key is findable in the associated note's body preview | Pass |
 | Tasks | Not exercised |
 
-Release gate met: both required runs recorded above. v0.1.0 tagged 2026-09-15.
+Release gate met: both required runs recorded above. v0.1.0 tagged 2026-09-15; v0.2.0 tagged 2026-09-15 (email source, HubSpot, coexistence rule).

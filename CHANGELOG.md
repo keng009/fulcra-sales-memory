@@ -2,10 +2,12 @@
 
 User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
 
-## [Unreleased] — 0.2.0
+## [0.2.0] — 2026-09-15 — email, HubSpot, coexistence
 
 ### Added
 - **Email as a sweep source** (ADR-0010, opt-in per pipeline, read-only): add `email` to an `auto-log` line and the sweep reads the mailbox by capability (Gmail: search threads, read thread), logs real conversations with an external counterparty as `email` touchpoints keyed `touch:gmail-thread:<id>`, surfaces automated notifications as **signals** in the digest without logging them, maps a mailbox to a business with `email-pipeline:`, and never sends, replies, or labels. README privacy section discloses it; CI anchors.
+- **HubSpot is Tier W and live-tested** (2026-09-15): the official connector is write-capable; note write with the key on the first body line, association to the contact, and read-back via the associated-notes scan — recorded in testing.md. Slot table and title-less dedupe mechanics in crm-sync.md. Per-pipeline CRM mapping recorded for a HubSpot pipeline alongside an Attio one (`crm[<pipeline>]`, `crm-workspace[…]`, `crm-pipeline[…]`, `crm-stage-map[…]`). (Closes the stale "read-only" claim tracked as dealflow #49.)
+- **Coexistence with other loggers** ([ADR-0011](docs/adr/0011-coexistence-with-other-loggers.md); engine-level, ported to both siblings): before any CRM note write, the contact's existing notes are scanned for the touchpoint's *source id* in any format (`[touch:…]`, `[otter:…]`, `Source:` lines, URLs), not just this packet's key — a hit from any other logger means skip, count as a duplicate, and name the note. Each packet stays complete on its own; two systems on one CRM never write the same conversation twice.
 
 ## [0.1.0] — 2026-09-15 — first release
 
@@ -37,10 +39,6 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 - **Made for non-technical sellers**: a one-page [quick reference](docs/quick-reference.md) ("say this → get that", setup in three clicks, make-it-automatic, what it never does, what to do if something looks off) linked from the top of the README and handed over by the demo's outro; first-class daily-rhythm phrases — "prep my day" (today's meetings with what you owe each person), "what do I owe people", "sweep", "show me the review queue", "auto-log my calls" / "stop auto-logging"; and a **plain-words rail** in both skills — no dedupe keys, typed records, tombstones, namespaces, or MCP in conversation, ever. CI checks the rail and the phrases.
 
 - **The skill builds the schedule** (Tend rule 7 + `references/scheduling.md`): "make this automatic" detects a scheduling capability (Claude's desktop app, Claude Code; claude.ai chat has none — the skill says so and falls back to "say sweep"), proposes name/cadence/what-each-run-does on a ledger, creates a single `sales-memory-sweep` task from a self-contained prompt template (load the skill or STOP; dead-Fulcra stop; plain-words digest), reads it back, and explains the app-open caveat. "stop my sweeps" disables it.
-
-- **HubSpot is Tier W and live-tested** (2026-09-15): the official connector is write-capable; note write with the key on the first body line, association to the contact, and read-back via the associated-notes scan — recorded in testing.md. Slot table and title-less dedupe mechanics in crm-sync.md. (Closes the stale "read-only" claim tracked as dealflow #49.)
-
-- **Coexistence with other loggers** (ADR-0011 in the sales packet; engine-level): before any CRM note write, the contact's existing notes are scanned for the touchpoint's *source id* in any format (`[touch:…]`, `[otter:…]`, `Source:` lines, URLs), not just this packet's key — a hit from any other logger means skip, count as a duplicate, and name the note. Each packet stays complete on its own; two systems on one CRM never write the same conversation twice.
 
 ### Release gate — met
 - Both required live runs are recorded in [docs/testing.md](docs/testing.md): the demo through Claude's real skill-upload UI (2026-09-15) and snapshot → commit → veto on a real account (2026-09-15). Also fixed at the gate: the Windows zip path finding (docs) and "preflight" in spoken output (plain-words rail).
