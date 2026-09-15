@@ -4,7 +4,7 @@ Where this packet is headed, by theme. The [issue tracker](https://github.com/ke
 
 ## Now — first live run, then v0.1.0
 
-This packet ships engine-proven, flavor-untested ([testing.md](docs/testing.md)). The release gate is [#1](https://github.com/keng009/fulcra-sales-memory/issues/1): a full `sales-demo` session through Claude's real zip-upload flow, and a `sales-memory` snapshot → commit → veto run on a real account. Plus a fresh-eyes review pass of the founder vocabulary and claims ([#2](https://github.com/keng009/fulcra-sales-memory/issues/2)). (CI is live: `validate` runs on every push and is a required check on main.)
+The flavor's own surfaces are now live-tested from the development harness — snapshot → commit → veto, Attio sync and import guards, unattended auto-log, and a scheduled sweep run ([testing.md](docs/testing.md)). The release gate [#1](https://github.com/keng009/fulcra-sales-memory/issues/1) has one human step left: a full `sales-demo` session through Claude's real zip-upload flow. Plus a fresh-eyes review pass of the founder vocabulary and claims ([#2](https://github.com/keng009/fulcra-sales-memory/issues/2)). (CI is live: `validate` runs on every push and is a required check on main.)
 
 ## Adapters under this flavor
 
