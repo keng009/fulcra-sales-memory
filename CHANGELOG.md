@@ -29,5 +29,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **Extension guide** (`references/extending.md`): how to add a messaging surface (paste row, connector slots M1–M4, browser tier), a notetaker (transcript slots T1–T4 with the timezone/participants/empty-recording checks), a CRM (pointer to the 8-slot protocol), or a calendar surface (attendee emails + stable ids) — plus an honest per-surface table (WhatsApp, Telegram, Signal, iMessage/SMS, Messenger/Instagram, LinkedIn, Slack/Discord) and the contribution checklist. Messenger/Instagram paste row added; README and both registries point to it; CI checks the pointer.
 
+- **Made for non-technical sellers**: a one-page [quick reference](docs/quick-reference.md) ("say this → get that", setup in three clicks, make-it-automatic, what it never does, what to do if something looks off) linked from the top of the README and handed over by the demo's outro; first-class daily-rhythm phrases — "prep my day" (today's meetings with what you owe each person), "what do I owe people", "sweep", "show me the review queue", "auto-log my calls" / "stop auto-logging"; and a **plain-words rail** in both skills — no dedupe keys, typed records, tombstones, namespaces, or MCP in conversation, ever. CI checks the rail and the phrases.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
