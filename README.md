@@ -10,6 +10,7 @@ Two Claude skills that give your sales pipeline a memory, on your own [Fulcra](h
 |---|---|---|
 | A zero-commitment look — see the flow on your own month (or sample data), decide after | **`sales-demo`** | ~10 minutes; works on an empty account; nothing written until you say yes |
 | The product — ongoing capture, meeting prep, weekly momentum, going-cold alerts, CRM sync | **`sales-memory`** | The daily workflow; picks up anything the demo stored, no migration |
+| A CRM connected and structured for the above — or set up from scratch | **`crm-setup`** | ~15 minutes, optional; Attio first, HubSpot and Notion designed-for |
 
 Start with the demo if you're deciding; start with `sales-memory` if you're already sold. Both write the same formats to the same folder.
 
@@ -36,6 +37,10 @@ Only the Fulcra connector is required. If calendar data is reachable (in your Fu
 
 Both skills write the same formats to the same `/sales/` folder in your account, so anything you logged during the demo is picked up by the full skill as-is. No migration.
 
+## Bring your CRM — `crm-setup` (optional)
+
+Sales memory needs no CRM — Fulcra alone is the system of record for conversations. When you want one anyway (a board view, a teammate on the pipeline), `crm-setup` connects it and gives it a lean structure in four phases: **Connect** (the exact account and connector steps for Attio, HubSpot, or Notion, then a verified workspace), **Inspect** (what the workspace already holds — never assumed empty), **Build** (a pipeline whose stages mirror `sales-memory`'s vocabulary — Lead → Qualified → Demo → Proposal → Negotiation → Closed won / Closed lost — with the connector doing what it can and you doing the two-minute stage edit the connector can't, read back afterward), and **Hand off** (the stage map recorded in your Fulcra handoff file, and `sales-memory` ready to sync). It creates structure only — never contacts, deals, or notes — and lists every write before one yes. Download `crm-setup.zip` from the same release page and upload it the same way.
+
 ## What this looks like in real life
 
 ![Your pipeline scattered across silos flows into one Fulcra memory that every assistant and your CRM can read](docs/assets/sales-map.svg)
@@ -53,7 +58,7 @@ Illustrative output — the demo generates one of these from your own logged con
 
 ## Already have a CRM?
 
-Keep it. If your Claude has CRM tools connected, `sales-memory` offers — once per session, never requires — to copy each logged conversation into it as a note on the matched contact. One-way, notes and tasks: it never edits fields, stages, or amounts, so your CRM stays the system of record for pipeline. One thing this flavor adds, because new leads often aren't in a seller's CRM yet: it can also add a missing lead as a minimal contact — but only if you turn that on, and it confirms each one first (off by default; [ADR-0008](docs/adr/0008-gated-crm-contact-creation.md)). Adapters are capability-based — see [`skills/sales-memory/references/crm-sync.md`](skills/sales-memory/references/crm-sync.md) for the tiers, the tested reference (Attio, in the engine sibling), and the 10-minute protocol for adding your own CRM. Your CRM is never mirrored into Fulcra: the memory holds the leads and customers you're actually talking to, not a copy of a thousand-contact list. (Individual CRM notes about those people can be imported as touchpoints on your say-so — selection, never mirroring.)
+Keep it. If your Claude has CRM tools connected, `sales-memory` offers — once per session, never requires — to copy each logged conversation into it as a note on the matched contact. One-way, notes and tasks: it never edits fields, stages, or amounts, so your CRM stays the system of record for pipeline. One thing this flavor adds, because new leads often aren't in a seller's CRM yet: it can also add a missing lead as a minimal contact — but only if you turn that on, and it confirms each one first (off by default; [ADR-0008](docs/adr/0008-gated-crm-contact-creation.md)). Adapters are capability-based — see [`skills/sales-memory/references/crm-sync.md`](skills/sales-memory/references/crm-sync.md) for the tiers, the tested reference (Attio — sync, dedupe, and import live-tested under this flavor on 2026-09-15), and the 10-minute protocol for adding your own CRM. No CRM yet, or one without a pipeline? The `crm-setup` skill above gets you there. Your CRM is never mirrored into Fulcra: the memory holds the leads and customers you're actually talking to, not a copy of a thousand-contact list. (Individual CRM notes about those people can be imported as touchpoints on your say-so — selection, never mirroring.)
 
 ## Why Fulcra?
 

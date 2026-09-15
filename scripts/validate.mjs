@@ -12,7 +12,8 @@ const ok = (msg) => console.log("  ok: " + msg);
 
 // ---------- 1. Frontmatter: exactly name + description, within Claude's limits ----------
 const SKILLS = ["skills/sales-demo/SKILL.md", "skills/sales-memory/SKILL.md"];
-for (const path of SKILLS) {
+const SETUP = "skills/crm-setup/SKILL.md";
+for (const path of [...SKILLS, SETUP]) {
   const src = read(path);
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!m) { fail(`${path}: no frontmatter block`); continue; }
@@ -40,6 +41,8 @@ const CONTRACT = "skills/sales-memory/references/conventions.md";
 const contract = read(CONTRACT);
 const demo = read(SKILLS[0]);
 const full = read(SKILLS[1]);
+const setup = read(SETUP);
+const crmsync = read("skills/sales-memory/references/crm-sync.md");
 const SHARED = [
   ['payload signature', '`{"dedupe_key","person","company","channel":"call|meeting|email|event|message|other","summary","stage_noted","follow_ups":[],"producer","evidence","recorded_at"}`', [demo, full]],
   ["base key format", "`touch:<person-slug>:<YYYY-MM-DD>`", [demo, full]],
@@ -72,7 +75,12 @@ const RAILS = [
   ["gated-contact-creation rail (ADR-0008)", "commit/backfill imports never create contacts", [full]],
   ["reads-never-write rail", "Reads never write", [full]],
   ["Fulcra connect guide referenced", "connect-fulcra.md", [full]],
-  ["official fulcra-get-started pointer", "fulcra-get-started", [demo, full]],
+  ["official fulcra-get-started pointer", "fulcra-get-started", [demo, full, setup]],
+  ["crm-setup: structure-only rail", "No records, ever", [setup]],
+  ["crm-setup: no-edit rail", "No edits or deletes", [setup]],
+  ["crm-setup: ledger before writes", "Ledger before every write", [setup]],
+  ["crm-setup: CRM connect guide referenced", "connect-crm.md", [setup]],
+  ["crm-sync hands first-timers to crm-setup", "crm-setup", [crmsync]],
   ["review queue convention", "review-queue.md", [full, contract]],
   ["CRM-origin key form", "touch:attio-note:", [full, contract]],
   ["calendar-origin key form", "touch:cal:", [demo, full, contract]],
@@ -98,7 +106,7 @@ for (const [label, needle, targets] of RAILS) {
 }
 
 // ---------- 4. No unshipped Fulcra features ----------
-for (const path of [...SKILLS, CONTRACT, "README.md", "skills/sales-memory/references/crm-sync.md"]) {
+for (const path of [...SKILLS, SETUP, CONTRACT, "README.md", "skills/sales-memory/references/crm-sync.md"]) {
   if (/file-system-updates/i.test(read(path))) fail(`${path}: references unshipped Fulcra feature "file-system-updates"`);
 }
 ok("no unshipped-feature references");

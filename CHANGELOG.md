@@ -19,5 +19,8 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **Connecting Fulcra guide** (`references/connect-fulcra.md`): both setup paths — Claude's app (account → Customize → Connectors → verify) and agent harnesses via Fulcra's official `fulcra-get-started` / `fulcra-connect` skills — with the honest line that no skill can create the account or authorize the connector itself. Both preflights and the README install steps point to it; CI now requires the pointer in every skill.
 
+- **`crm-setup` skill** (third skill in the packet): Connect → Inspect → Build → Hand off. Per-CRM connector paths (Attio; HubSpot and Notion designed-for), workspace inspection before any proposal, a pipeline whose stages mirror `sales-memory`'s vocabulary (the connector builds what it can; attribute/stage edits are the user's two-minute UI step, read back afterward), the stage map recorded under `## Preferences`, then sync handed to `sales-memory`. Structure only — never contacts, deals, or notes; ledger before every write. CI validates its frontmatter and rails; releases ship `crm-setup.zip`.
+- **Attio live-tested under this flavor** (testing.md 2026-09-15): email-first contact matching resolving a duplicate-record case, sync note write in the contract format, dedupe re-run skip, and the import path's cross-key and circularity guards against real third-party notes.
+
 ### Release gate
 - First release requires the live runs listed in [docs/testing.md](docs/testing.md) — this flavor ships engine-proven but flavor-untested until then, and the README says so.
