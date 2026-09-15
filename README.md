@@ -4,6 +4,10 @@ Two Claude skills that give your sales pipeline a memory, on your own [Fulcra](h
 
 **Sibling packets**: [fulcra-dealflow-memory](https://github.com/keng009/fulcra-dealflow-memory) (investors managing deal flow — the engine's origin) and [fulcra-raise-memory](https://github.com/keng009/fulcra-raise-memory) (founders raising) are the same engine flavored for different sides of different tables. All three can run on one account (disjoint `/dealflow/`, `/raise/`, and `/sales/` namespaces). See [ADR-0007](docs/adr/0007-sibling-product-fork.md).
 
+## Not technical? Start here
+
+You don't need to know what any of the words below mean. Setup is three clicks and a free account; after that you talk to Claude in plain sentences — **"prep my day"**, **"log my call with Sam"**, **"what do I owe people"**, **"what moved this week"**. The whole manual fits on one page: [docs/quick-reference.md](docs/quick-reference.md). Everything else in this README is for people who want to know how it works.
+
 ## Which skill do I install?
 
 | You want | Install | Commitment |
