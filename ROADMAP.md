@@ -2,9 +2,9 @@
 
 Where this packet is headed, by theme. The [issue tracker](https://github.com/keng009/fulcra-sales-memory/issues) is the source of record — this page is the map. Nothing here is a promise with a date; items gated on platform capabilities ship only when those are live (CONTRIBUTING rule 3).
 
-## Now — first live run, then v0.1.0
+## Now — v0.2.0 shipped; first outside users
 
-The flavor's own surfaces are now live-tested from the development harness — snapshot → commit → veto, Attio sync and import guards, unattended auto-log, and a scheduled sweep run ([testing.md](docs/testing.md)). The release gate [#1](https://github.com/keng009/fulcra-sales-memory/issues/1) has one human step left: a full `sales-demo` session through Claude's real zip-upload flow. Plus a fresh-eyes review pass of the founder vocabulary and claims ([#2](https://github.com/keng009/fulcra-sales-memory/issues/2)). (CI is live: `validate` runs on every push and is a required check on main.)
+v0.1.0 (2026-09-15) met its gate with the demo run through Claude's real zip-upload flow; v0.2.0 (same day) added email as a sweep source (ADR-0010), HubSpot live-tested with a per-pipeline mapping, and the coexistence rule (ADR-0011) so this packet and any other logger can share a CRM without duplicate notes. Every claim has a row in [testing.md](docs/testing.md). What is next is outside evidence: the first non-maintainer install (a founder who runs events and sales), the fresh-eyes vocabulary review ([#2](https://github.com/keng009/fulcra-sales-memory/issues/2)), and the still-untested rows (CRM contact creation, `crm-setup`'s first structure build, dead-Fulcra stop, revocation, the coexistence skip). (CI is live: `validate` runs on every push and is a required check on main.)
 
 ## Adapters under this flavor
 
