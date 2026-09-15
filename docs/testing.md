@@ -25,6 +25,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
 | Email as a source (ADR-0010): eligible threads auto-logged; notifications surfaced as signals, not logged; noise senders filtered | **Pass — 2026-09-15** (below); re-sweep skip pending the next run |
 | HubSpot Tier W: note write (key on first body line) + association + read-back via associated-notes scan | **Pass — 2026-09-15** (below); tasks untested |
+| Coexistence (ADR-0011): sync skips a conversation another logger already recorded (source id found in a third-party note) | **Untested as a rule** — adopted after today's live runs observed the duplication it prevents (two loggers, two notes, same call); first row on the next sync that meets a third-party note |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
 | Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **Pass — 2026-09-15** (below) |
 
