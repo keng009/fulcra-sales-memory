@@ -20,8 +20,8 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Messaging capture (paste tier) under this flavor | **Untested** |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
 | `crm-setup`: optional list creation via `create-list` | **Untested** |
-| Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Untested** |
-| Unattended auto-log — ineligible brokered intro parks | **Untested** |
+| Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Pass — 2026-09-15** (below; manually triggered, scheduled trigger pending) |
+| Unattended auto-log — ineligible items park | **Pass — 2026-09-15** (below; calendar-only item with undeterminable pipeline; the no-summary brokered variant not yet observed) |
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
 
@@ -59,5 +59,23 @@ Run on the maintainer's own workspace against two real contacts from the `gobeyo
 | Delete | Confirmed absent — cleanup is manual in the Attio UI, as the veto disclosure says |
 
 Side observation, not this packet's behavior: a separate auto-logger in the same workspace had written each third-party note twice (seconds apart) — the cross-key guard handled both copies identically.
+
+## 2026-09-15 — First unattended auto-log run (ADR-0009, Tend rule 6), manually triggered
+
+Run on the maintainer's real account minutes after the standing yes was written (`auto-log[<pipeline>]: transcripts, calendar` for both registered pipelines). Window: from the last committed activity to now (first run, stated). No CRM mapping existed under `## Preferences`, so no CRM writes were attempted — correct per the rule. The scheduled trigger itself remains the residual (#5).
+
+| Step | Result |
+|---|---|
+| Standing yes read from `## Preferences` before anything else; veto set loaded | Pass |
+| Sources swept: transcripts (11 in window) + calendar (two weeks) | Pass — internal team meetings, community events, personal items, and task-like entries filtered out |
+| Eligibility applied item by item | Pass — 5 items met all three conditions (real transcript summary, one resolved person, pipeline unambiguous from the transcript); 3 did not |
+| Brokered intros (two Boardy-booked) | Pass — identity taken from the non-broker attendee email, pipeline classified from the transcript, not the broker's blurb |
+| Calendar-only item with an external attendee email but no transcript and no existing relationship | Pass — pipeline not determinable under two registered pipelines → parked, not committed (the looser eligibility path's designed edge) |
+| Auto-commit writes: 3 new relationship files, 1 existing file updated newest-first, 5 typed records, INDEX updated | Pass — every `evidence` ends in `, auto-log`; two records carry source-derived `stage_noted`; no tasks and no open follow-ups created |
+| Read-back | Pass — all 5 payloads round-trip via `get_records` with `pipeline` and `auto-log` marker intact |
+| Receipt + watermarks written last, after full resolution | Pass — one `## Sweep log` line (committed 5 / parked 3 / skipped-duplicate 0 / failed none); both source watermarks advanced to the run's start time |
+| Digest posted | Pass — presented to the user after the run |
+
+Still untested for auto mode: the dead-Fulcra STOP (can only be caught, not staged), revocation (line removed → next run digests instead), and the scheduled trigger.
 
 First release is gated on at least: one full `sales-demo` session through Claude's actual zip-upload UI (still pending), and one `sales-memory` snapshot→commit→veto run on a real account (done, above) — both recorded here (dated, sanitized).
