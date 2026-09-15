@@ -101,6 +101,8 @@ const RAILS = [
   ["daily-rhythm trigger: prep my day", "prep my day", [full]],
   ["daily-rhythm trigger: what do I owe", "what do I owe people", [full]],
   ["auto-log plain on/off phrases", "stop auto-logging", [full]],
+  ["scheduling by capability (rule 7)", "scheduling.md", [full]],
+  ["scheduling: no second task", "sales-memory-sweep", [full]],
   ["any-match-confirms rule", "already present in ANY representation", [full, contract]],
   ["sweep watermarks", "## Sweep watermarks", [full, contract]],
   ["auto-log opt-in (ADR-0009)", "auto-log", [full, contract]],

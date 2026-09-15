@@ -10,7 +10,7 @@ description: >-
      capture — "log my call/meeting with…", "I just got off a call with…", a pasted
      block of meeting notes, a pasted WhatsApp/Telegram/LinkedIn/Slack message thread;
      account history — "talked to this company before?", a pasted
-     lead intro; daily rhythm — "prep my day", "what do I owe people", "sweep"; recall — "prep me for…", "what do I know about…"; reporting —
+     lead intro; daily rhythm — "prep my day", "what do I owe people", "sweep", "make this automatic"; recall — "prep me for…", "what do I know about…"; reporting —
      "what moved this week/month", "who have I gone cold on". Anything logged by
      sales-demo is picked up here with no migration; for a guided first-time demo
      session, use sales-demo instead.
@@ -317,6 +317,13 @@ After a commit exists, ongoing upkeep arrives as small deltas, never projects:
    - **Receipt, every run:** append one line under `## Sweep log` in `handoff.md` — `- <ISO start> | sources: <list> | committed <n> | parked <n> | skipped-duplicate <n> | failed: <none|detail>`. Keep the newest 30 lines; move older ones to `/sales/sweep-log-archive.md` (append, versioned). Post a digest after any run that committed or parked anything — silent accumulation is forbidden.
    - **Failure playbook, in order:** a dead Fulcra (expired token, persistent 401 diagnosed via `list_files` — see Rails) is a STOP: no memory writes, no CRM writes, no watermark move, and the receipt cannot be written, so report the run as failed in the digest; an unreachable gather source (transcripts, calendar) is skipped, named in the receipt, and its watermark left unmoved; a failed CRM write leaves the memory write standing and retries next run (the dedupe scan makes that safe).
    - **Invariants unchanged:** veto set loaded first; vetoed keys never auto-re-imported; watermarks advance only after resolution, receipt written in the same failure-safe order (after resolution, watermark last); removing the `auto-log` line revokes the standing yes and nothing else changes.
+7. **Make it automatic — the skill builds the schedule (opt-in).** Trigger: "make this automatic", "schedule my sweeps", "auto-sync", or offered once, in one line, right after the user turns on auto-log ("Want me to run this on a schedule so you never have to say 'sweep'?"). Steps:
+   - **Detect a scheduling capability**, never assume one: a tool that creates recurring tasks (Claude's desktop app exposes `create_scheduled_task` / `list_scheduled_tasks`; Claude Code exposes a cron tool; other harnesses vary). Check the existing list first — if a task named `sales-memory-sweep` already exists, say so and offer to change its time instead of creating a second one.
+   - **Ledger, then yes**: task name (`sales-memory-sweep`), cadence (default: weekdays at 17:30 in the user's timezone from `get_user_info` — ask if they'd rather morning), and what each run does in one sentence ("finds new calls and meetings, logs the clear ones if auto-log is on — otherwise asks — and leaves you a receipt and a digest"). One yes.
+   - **The task's prompt must stand alone** — each run starts a fresh session with no memory of this chat. Include: which skill to load and follow (this one, Tend rules 5 and 6 and the Rails) and to STOP if the skill can't be loaded rather than run from memory; the namespace and registered pipelines; the connectors to use (Fulcra; the calendar connector's own tool, not Fulcra's calendar tool; the transcript tool); the failure playbook (dead Fulcra = stop, no writes); and the digest format in plain words. A template lives in `references/scheduling.md`.
+   - **Read it back** (list the tasks) and tell the user two things plainly: when it runs, and that in Claude's desktop app scheduled tasks run while the app is open and catch up on next launch.
+   - **Stopping**: "stop my sweeps" → disable or delete the task and confirm. Removing the `auto-log` line separately turns the schedule back into a digest-and-ask sweep.
+   - **No scheduling tool here?** Say so and give the honest alternatives from `references/scheduling.md`: create the task in the app that has one (Claude's desktop app → Scheduled tasks; Claude Code → the schedule command), or just say "sweep" when opening a chat — the result is identical, only the trigger differs.
 
 ## Rails
 
