@@ -15,7 +15,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | `sales-demo` full session (zip upload → snapshot/capture → save → prep brief) | **Pass — 2026-09-15** (below) |
 | `sales-memory` snapshot → commit → veto on a real account | **Pass — 2026-09-15** (below) |
 | `/sales/` folder init, `Sales Touchpoint` create-if-absent, dual write + read-back | **Pass — 2026-09-15** (below) |
-| CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards | **Pass — 2026-09-15** (below); Attio task creation, HubSpot, Notion, Affinity still untested |
+| CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards; email-touchpoint sync | **Pass — 2026-09-15** (below); Attio task creation, Notion, Affinity still untested |
 | Gated CRM contact creation, slot 8 (ADR-0008 — this flavor's one engine divergence) | **Untested** |
 | Messaging capture (paste tier) under this flavor | **Untested** |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
@@ -23,7 +23,8 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Pass — 2026-09-15** (below; manually triggered, scheduled trigger pending) |
 | Unattended auto-log — ineligible items park | **Pass — 2026-09-15** (below; calendar-only item with undeterminable pipeline; the no-summary brokered variant not yet observed) |
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
-| Email as a source (ADR-0010): eligible thread auto-logged; notification surfaced as a signal, not logged; noise sender filtered; re-sweep skips the captured thread | **Untested** (first run pending) |
+| Email as a source (ADR-0010): eligible threads auto-logged; notifications surfaced as signals, not logged; noise senders filtered | **Pass — 2026-09-15** (below); re-sweep skip pending the next run |
+| HubSpot Tier W: note write (key on first body line) + association + read-back via associated-notes scan | **Pass — 2026-09-15** (below); tasks untested |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
 | Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **Pass — 2026-09-15** (below) |
 
