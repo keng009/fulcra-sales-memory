@@ -15,7 +15,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | `sales-demo` full session (zip upload → snapshot/capture → save → prep brief) | **Pass — 2026-09-15** (below) |
 | `sales-memory` snapshot → commit → veto on a real account | **Pass — 2026-09-15** (below) |
 | `/sales/` folder init, `Sales Touchpoint` create-if-absent, dual write + read-back | **Pass — 2026-09-15** (below) |
-| CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards | **Pass — 2026-09-15** (below); Attio task creation, HubSpot, Notion, Affinity still untested |
+| CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards; email-touchpoint sync | **Pass — 2026-09-15** (below); Attio task creation, Notion, Affinity still untested |
 | Gated CRM contact creation, slot 8 (ADR-0008 — this flavor's one engine divergence) | **Untested** |
 | Messaging capture (paste tier) under this flavor | **Untested** |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
@@ -23,7 +23,8 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Pass — 2026-09-15** (below; manually triggered, scheduled trigger pending) |
 | Unattended auto-log — ineligible items park | **Pass — 2026-09-15** (below; calendar-only item with undeterminable pipeline; the no-summary brokered variant not yet observed) |
 | Unattended auto-log — dead Fulcra → STOP, zero writes | **Untested** |
-| Email as a source (ADR-0010): eligible thread auto-logged; notification surfaced as a signal, not logged; noise sender filtered; re-sweep skips the captured thread | **Untested** (first run pending) |
+| Email as a source (ADR-0010): eligible threads auto-logged; notifications surfaced as signals, not logged; noise senders filtered | **Pass — 2026-09-15** (below); re-sweep skip pending the next run |
+| HubSpot Tier W: note write (key on first body line) + association + read-back via associated-notes scan | **Pass — 2026-09-15** (below); tasks untested |
 | Unattended auto-log — revocation (line removed → next run digests instead) | **Untested** |
 | Scheduled trigger built by the skill (Tend rule 7): task created via the desktop app's scheduling tool, run fires and completes a sweep | **Pass — 2026-09-15** (below) |
 
@@ -111,5 +112,29 @@ Run by the maintainer in Claude's chat app, on the real account — the harder c
 **Finding (fixed in the docs):** a zip built with PowerShell's `Compress-Archive` on Windows stores entry paths with backslashes (`sales-demo\SKILL.md`); Claude's uploader rejects it with "Zip file contains path with invalid characters". Zips built with forward-slash entries upload fine; the release workflow (Linux) always produces forward slashes. The quick reference now says: on Windows, use the release zip.
 
 **Finding (fixed in the skills):** "preflight" leaked into spoken output; added to the plain-words rail.
+
+## 2026-09-15 — Email as a source (ADR-0010), first live run
+
+Run on the maintainer's real mailbox (the Gmail connector) minutes after \`email\` was added to both pipelines' auto-log lines, over a two-week window. Manually triggered; the scheduled task's next run will exercise the re-sweep skip.
+
+| Step | Result |
+|---|---|
+| Mailbox read by capability (search threads by date, read thread), read-only | Pass — no label, reply, or send |
+| Noise filtered: newsletters, event broadcasts, a scheduler's own status mails, calendar invitation mail | Pass |
+| Signals-vs-conversations line: a product notification (an evaluator lead) and a broker's intro offers/debriefs surfaced as **signals** in the digest, not logged | Pass |
+| Eligible conversations: external counterparty, one resolved person, real correspondence | Pass — 8 threads across 6 people; 5 existing relationships updated newest-first, 1 new relationship created |
+| Pipeline classified from content first (a thread in the Go Beyond mailbox whose content was a Fulcra engineering conversation went to \`fulcra\`, not the mailbox default) | Pass — the mailbox default is a fallback, not a rule |
+| Keys \`touch:gmail-thread:<id>\`, channel \`email\`, evidence \`gmail thread <id>, auto-log\`, one touchpoint per thread | Pass — read back via \`get_records\` |
+| CRM sync of email touchpoints where the pipeline had a CRM mapped | Pass — Attio notes on three matched contacts, dedupe scan first |
+
+## 2026-09-15 — HubSpot Tier W (official connector, real portal, real contact)
+
+| Step | Result |
+|---|---|
+| Contact search by name (\`search_crm_objects\` CONTACT) | Pass |
+| Dedupe scan: list the contact's notes (\`search_crm_objects\` NOTE, \`associatedWith\` the contact) and check body previews for the key | Pass — a third-party note present, no key → write proceeds |
+| Note write (\`manage_crm_objects\` createRequest, objectType \`notes\`, key on the first body line, \`hs_timestamp\`, association to CONTACT) | Pass — created and associated in one call |
+| Read-back: the key is findable in the associated note's body preview | Pass |
+| Tasks | Not exercised |
 
 Release gate met: both required runs recorded above. v0.1.0 tagged 2026-09-15.

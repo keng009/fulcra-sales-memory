@@ -38,5 +38,7 @@ User-visible changes to the skill packet. Format follows [Keep a Changelog](http
 
 - **The skill builds the schedule** (Tend rule 7 + `references/scheduling.md`): "make this automatic" detects a scheduling capability (Claude's desktop app, Claude Code; claude.ai chat has none — the skill says so and falls back to "say sweep"), proposes name/cadence/what-each-run-does on a ledger, creates a single `sales-memory-sweep` task from a self-contained prompt template (load the skill or STOP; dead-Fulcra stop; plain-words digest), reads it back, and explains the app-open caveat. "stop my sweeps" disables it.
 
+- **HubSpot is Tier W and live-tested** (2026-09-15): the official connector is write-capable; note write with the key on the first body line, association to the contact, and read-back via the associated-notes scan — recorded in testing.md. Slot table and title-less dedupe mechanics in crm-sync.md. (Closes the stale "read-only" claim tracked as dealflow #49.)
+
 ### Release gate — met
 - Both required live runs are recorded in [docs/testing.md](docs/testing.md): the demo through Claude's real skill-upload UI (2026-09-15) and snapshot → commit → veto on a real account (2026-09-15). Also fixed at the gate: the Windows zip path finding (docs) and "preflight" in spoken output (plain-words rail).
