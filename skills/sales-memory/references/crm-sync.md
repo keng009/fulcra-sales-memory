@@ -107,6 +107,8 @@ When syncing to ANY CRM under this packet — Attio included — state the statu
 
 ## Add your CRM — the 10-minute promotion protocol
 
+(For adding a messaging app, a notetaker, or a calendar surface instead, see `extending.md` — same spirit, per-source slots.)
+
 Anyone with a CRM connector can add their CRM to this file and promote it to `tested`:
 
 1. **Map the slots.** List your connector's tools and fill the capability slots above. Slots 1–3 only → your CRM is Tier R (still valuable — say so in its section). No slot-1 tool → the CRM can't participate; stop here.
