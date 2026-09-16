@@ -63,7 +63,7 @@ Honest framing first: LinkedIn's User Agreement (and WhatsApp's terms) prohibit 
 - **Stop on the first warning.** A CAPTCHA, an "unusual activity" or verification prompt, a security email, or any restriction notice → stop immediately, do not retry, disable the schedule, and tell the user exactly what appeared; the user re-enables it deliberately. After any anomaly (an unexpected page, a timeout, a layout the session doesn't recognize), skip the next scheduled run — back off rather than push.
 - **No decoy activity.** The tier does not simulate browsing (fake profile visits, scrambled click paths) to look human; it doesn't need to, because it isn't doing anything that needs disguising. Restraint is the mitigation; mimicry is not.
 
-Status: **designed-for, untested in this repo** — no sanitized `docs/testing.md` row yet; that row is what promotes it.
+Status: **live-tested under this flavor** (attended first run 2026-09-15/16, LinkedIn DMs + WhatsApp Web from the user's own Chrome — see `docs/testing.md`); the scheduled, unattended form parks observed threads for a yes and never auto-logs them. One honest note from the run: opening a thread marks it seen on the platform, exactly as a human glance would.
 
 ## LinkedIn lead-sequence discipline (drafts-only)
 

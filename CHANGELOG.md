@@ -2,6 +2,11 @@
 
 User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
 
+## [Unreleased]
+
+### Added
+- **Browser-observation tier live-tested** (2026-09-15/16): LinkedIn DMs and WhatsApp Web read from the user's own Chrome under the account-risk posture — attended first run with a ledger and one yes (2 threads saved, investor/personal/vendor threads named and skipped), `linkedin dms` / `whatsapp` watermarks and receipts, the CRM note written only where the contact already existed. The scheduled sweep may include the same glance; observed threads are parked for a yes, never auto-logged (messaging is outside ADR-0009's eligible sources). Unattended form: Pending — the first manual run with this step (2026-09-16) paused on a first-time tool approval in the task's own session (the desktop app stores approvals on a run's first use); recorded after the next completed run.
+
 ## [0.2.0] — 2026-09-15 — email, HubSpot, coexistence
 
 ### Added
