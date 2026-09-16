@@ -18,6 +18,8 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | CRM adapters under this flavor — Attio Tier W sync + dedupe + import guards; email-touchpoint sync | **Pass — 2026-09-15** (below); Attio task creation, Notion, Affinity still untested |
 | Gated CRM contact creation, slot 8 (ADR-0008 — this flavor's one engine divergence) | **Untested** |
 | Messaging capture (paste tier) under this flavor | **Untested** |
+| Messaging browser-observation tier — LinkedIn DMs and WhatsApp Web read-only from the user's own Chrome, attended first run, ledger, one yes | **Pass — 2026-09-15/16** (below) |
+| Messaging browser-observation tier — the same glance inside the scheduled sweep (unattended; threads parked for a yes, never auto-logged) | **Pending** — the first manual run with this step (2026-09-16) paused on a first-time tool approval in the task's own session (the desktop app stores approvals on a run's first use); recorded after the next completed run |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
 | `crm-setup`: optional list creation via `create-list` | **Untested** |
 | Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Pass — 2026-09-15** (below; manually triggered, scheduled trigger pending) |
@@ -46,6 +48,21 @@ Run on the maintainer's real account against a fresh `/sales/` namespace (no fol
 | Veto → tombstone | Pass — one committed touchpoint vetoed: relationship file rewritten as a new version without the entry (earlier version retained and listed as archived), key added to `## Vetoed keys`; the typed record remains stored and is excluded by the read filter |
 
 Still untested from this flow: the release-ZIP upload journey end to end (#1 — human step); CRM slot 8 (#4); the scheduled sweep (#5); slot 6 (#6); messaging capture (paste tier).
+
+## 2026-09-15/16 — Browser-observation tier, attended first run (Claude in Chrome against the user's own logged-in Chrome)
+
+Harness: Claude Code desktop app with the Claude in Chrome extension. The user asked for the tier explicitly and was present. WhatsApp Web was not linked at first (QR screen) — the user linked it themselves; the skill never touches authentication.
+
+| Step | Result |
+|---|---|
+| Account-risk posture honored: inbox only, one window per site, no profile/feed/search visits, zero sends/reactions/typing, own browser profile | Pass — the only platform-side effect observed is LinkedIn marking an opened thread as seen (same as a human glance; disclosed to the user) |
+| LinkedIn inbox read: conversation list via page text; a handful of threads opened for a few seconds each | Pass — 10 recent threads read; no CAPTCHA, verification, or restriction prompt |
+| Classification under the sales lens | Pass — 2 business threads (a founder-community host ask and a workshop-organizer thread, both one pipeline), 4 investor threads named as out of scope for this skill, 1 vendor pitch, 1 auto-reply, 3 personal — all listed in the ledger with the reason |
+| Ledger → one yes → dual write with date-form keys (no stable id from a browser read), evidence `browser observation, linkedin dms <date>` | Pass — 2 relationship files + 2 typed records; one open follow-up created (a live capture, not a backfill) |
+| CRM after the yes (pipeline mapped to HubSpot): dedupe scan on the matched contact, note with the key on the first body line, association | Pass for the contact that existed; the other person is not in the CRM → skipped and said so (ADR-0008: no contact creation without a recorded preference) |
+| WhatsApp Web read: chat list + the one thread with any business signal | Pass — nothing to save; the digest named the one signal (a founder friend's update, no ask) |
+| Watermarks `linkedin dms` and `whatsapp` written; receipt lines under `## Sweep log` | Pass |
+| Stop-on-warning path | Not exercised — no warning appeared |
 
 ## 2026-09-15 — Attio CRM path under this flavor (official Attio connector, real workspace, real contacts)
 
