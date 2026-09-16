@@ -2,9 +2,10 @@
 
 User-visible changes to the skill packet. Format follows [Keep a Changelog](https://keepachangelog.com/); versions are [release tags](https://github.com/keng009/fulcra-sales-memory/releases) with ready-to-upload zips attached. Live-behavior evidence for every claim: [docs/testing.md](docs/testing.md).
 
-## [Unreleased]
+## [0.2.1] — 2026-09-16 — inbox glance
 
 ### Added
+- **Tend rule 8 — inbox glance** ("check my inboxes"): the browser-observation tier is now a first-class behavior — capability detection (Claude in Chrome or equivalent; paste path otherwise), the one-time informed-choice line, inbox-only read of new threads, ledger and one yes with date-form keys, never auto-logged (parked for a live yes inside a schedule), stop-on-warning with a `browser-observation: paused` preference line, `linkedin dms` / `whatsapp` watermarks. The rule 7 schedule template carries it as an optional step 2b; the quick reference gains the phrase and the honest terms line. CI anchors.
 - **Browser-observation tier live-tested** (2026-09-15/16): LinkedIn DMs and WhatsApp Web read from the user's own Chrome under the account-risk posture — attended first run with a ledger and one yes (2 threads saved, investor/personal/vendor threads named and skipped), `linkedin dms` / `whatsapp` watermarks and receipts, the CRM note written only where the contact already existed. The scheduled sweep may include the same glance; observed threads are parked for a yes, never auto-logged (messaging is outside ADR-0009's eligible sources). Unattended form: Pending — the first manual run with this step (2026-09-16) paused on a first-time tool approval in the task's own session (the desktop app stores approvals on a run's first use); recorded after the next completed run.
 
 ## [0.2.0] — 2026-09-15 — email, HubSpot, coexistence

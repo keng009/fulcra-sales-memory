@@ -17,6 +17,7 @@ Optional, later: connect your calendar and your meeting recorder (Otter, Zoom, F
 | **"prep my day"** | A short brief for each person you're meeting today: who they are, what you last discussed, what you owe them, what to bring up. |
 | **"log my call with Sam"** | Claude asks a couple of questions (or none, if it heard the meeting through your recorder), then saves the conversation to your memory. |
 | **"log this"** + a pasted WhatsApp, LinkedIn, iMessage, or email thread | Same thing, from the thread. Any app, no setup. |
+| **"check my inboxes"** | In Claude's desktop app with the Chrome extension: Claude glances at your LinkedIn messages and WhatsApp Web in your own browser, read-only, shows you the business threads, and saves the ones you say yes to. Never sends, never touches anything. |
 | **"prep me for Sam"** | Everything you know about Sam and their company, in five lines, before the call. |
 | **"what do I owe people"** | Every open follow-up you've promised, oldest first. |
 | **"what moved this week"** | Your week by account: who's new, who's active, what stage things are at (in your own words), who you owe. |
@@ -29,7 +30,7 @@ Two businesses? Say **"what moved this week in Go Beyond"** (or whatever you nam
 
 ## Make it automatic
 
-Say **"auto-log my calls"** once — from then on, every sweep logs your calls and meetings without asking and leaves you a short digest (add **"and my email"** to include real email conversations; signup notifications and the like are shown as signals, not logged) (undo any time with **"stop auto-logging"**). Then say **"make this automatic"** — where your Claude can schedule things (the desktop app can), Claude builds a weekday-afternoon sweep for you and reads it back; where it can't, it tells you, and you just say **"sweep"** whenever you open a chat. Same result either way; only the trigger differs.
+Say **"auto-log my calls"** once — from then on, every sweep logs your calls and meetings without asking and leaves you a short digest (add **"and my email"** to include real email conversations; signup notifications and the like are shown as signals, not logged) (undo any time with **"stop auto-logging"**). Then say **"make this automatic"** — where your Claude can schedule things (the desktop app can), Claude builds a weekday-afternoon sweep for you and reads it back; where it can't, it tells you, and you just say **"sweep"** whenever you open a chat. Same result either way; only the trigger differs. Want the inbox glance in the schedule too? Say **"and check my inboxes"** — each run then takes one read-only look at LinkedIn and WhatsApp Web and lists what it found for your yes (it needs Chrome with the Claude extension, logged in to both). One honest line: those platforms' terms don't allow automated reading, even of your own inbox — it behaves exactly like you glancing, and stops on the first warning, but it's your call.
 
 ## Your CRM (optional)
 
@@ -43,5 +44,6 @@ Send a message or email for you (it drafts; you send). Change anything in your C
 
 - **"Fulcra isn't connected"** → Customize → Connectors, reconnect Fulcra, try again. That's almost always it.
 - **It says "already logged"** → good; it caught a duplicate.
-- **It parked something "for review"** → it wasn't sure who or what a meeting was. Say **"show me the review queue"** and rule on it in a sentence.
+- **It parked something "for review"** → it wasn't sure who or what a meeting was (or a scheduled inbox glance found a thread waiting for your yes). Say **"show me the review queue"** and rule on it in a sentence.
+- **"Inbox glance paused"** → LinkedIn or WhatsApp showed a warning and Claude stopped, as designed. Check the site yourself; when it looks normal, say **"resume my inbox glance"**.
 - **Anything else** → tell whoever gave you the skill. Early days; feedback is the point.
