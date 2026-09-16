@@ -19,7 +19,7 @@ Per ADR-0007, that evidence supports the **design** of this packet's engine — 
 | Gated CRM contact creation, slot 8 (ADR-0008 — this flavor's one engine divergence) | **Untested** |
 | Messaging capture (paste tier) under this flavor | **Untested** |
 | Messaging browser-observation tier — LinkedIn DMs and WhatsApp Web read-only from the user's own Chrome, attended first run, ledger, one yes | **Pass — 2026-09-15/16** (below) |
-| Messaging browser-observation tier — the same glance inside the scheduled sweep (unattended; threads parked for a yes, never auto-logged) | **Pending** — the first manual run with this step (2026-09-16) paused on a first-time tool approval in the task's own session (the desktop app stores approvals on a run's first use); recorded after the next completed run |
+| Messaging browser-observation tier — the same glance inside the scheduled sweep (unattended; threads parked for a yes, never auto-logged) | **Pass — 2026-09-16** — the task's own session opened LinkedIn then WhatsApp Web once each in the user's Chrome, read only the threads newer than the watermarks (one per site), classified both as non-business and parked nothing, closed the tab, advanced both watermarks, and said so in the digest; no warnings appeared. (The run paused once on a first-time browser-tool approval; the app stores it for later runs.) |
 | `crm-setup`: Attio inspect + stage read-back + mapping record | **Untested** (designed against the live connector's tool list; first run pending) |
 | `crm-setup`: optional list creation via `create-list` | **Untested** |
 | Unattended auto-log (ADR-0009) — eligible items commit without a yes, receipt + digest | **Pass — 2026-09-15** (below; manually triggered, scheduled trigger pending) |
